@@ -6,59 +6,35 @@ signal balance_changed(new_balance: float)
 signal production_changed(new_bps: float)
 
 # Catálogo de items (configura en el Inspector o por código)
-@export var store_items: Array[StoreItem] = []
-
-func _process(delta: float) -> void:
-	if can_afford(0):
-		purchase_item(0)
-# Referencia al singleton de GameManager
+var store_items: Array[StoreItem] = []
+var reference_item_button = preload("res://scenes/item.tscn")
+@onready var v_box_container: VBoxContainer = get_node_or_null("/root/Main/UI/Store/ScrollContainer/StoreContainer")
 
 func _ready() -> void:
 	
-	# Si no tienes items preconfigurados, créalos
-	if store_items.is_empty():
-		_create_default_items()
-	
+	## Si no tienes items preconfigurados, créalos
+	#if store_items.is_empty():
+		#_create_default_items()
+	_load_store_items()
 	# Actualizar producción total al iniciar
 	_update_total_production()
 
+
+#func _process(_delta: float) -> void:
+	#if can_afford(0):
+		#purchase_item(0)
+# Referencia al singleton de GameManager
+
 # Crear items por defecto basados en Cookie Clicker
-func _create_default_items() -> void:
-	# Lengua Áspera (equivalente a Cursor)
-	var tongue = StoreItem.new()
-	tongue.item_name = "Lengua Áspera"
-	tongue.description = "Una lengua rasposa que lame constantemente"
-	tongue.base_cost = 15.0
-	tongue.base_production = 0.1
-	tongue.cost_multiplier = 1.15
-	store_items.append(tongue)
-	
-	# Cepillo Mágico (equivalente a Grandma)
-	var brush = StoreItem.new()
-	brush.item_name = "Cepillo Mágico"
-	brush.description = "Un cepillo que genera bolas de pelo por arte de magia"
-	brush.base_cost = 100.0
-	brush.base_production = 1.0
-	brush.cost_multiplier = 1.15
-	store_items.append(brush)
-	
-	# Pelotita de Estambre (equivalente a Farm)
-	var yarn = StoreItem.new()
-	yarn.item_name = "Pelotita de Estambre"
-	yarn.description = "El gato juega y genera bolas de pelo juguetonamente"
-	yarn.base_cost = 1100.0
-	yarn.base_production = 8.0
-	yarn.cost_multiplier = 1.15
-	store_items.append(yarn)
-	
-	# Scratching Post Hipnótico (equivalente a Mine)
-	var post = StoreItem.new()
-	post.item_name = "Scratching Post Hipnótico"
-	post.description = "Un poste rascador que hipnotiza al gato para producir más"
-	post.base_cost = 12000.0
-	post.base_production = 47.0
-	post.cost_multiplier = 1.15
-	store_items.append(post)
+#func _create_default_items() -> void:
+	## Lengua Áspera (equivalente a Cursor)
+	#var tongue = StoreItem.new()
+	#tongue.item_name = "Lengua Áspera"
+	#tongue.description = "Una lengua rasposa que lame constantemente"
+	#tongue.base_cost = Big_Number.new(1,1)
+	#tongue.base_production = Big_Number.new(1,1)
+	#tongue.cost_multiplier = Big_Number.new(1,1)
+	#store_items.append(tongue)
 
 # Intentar comprar un item
 func purchase_item(item_index: int) -> bool:
@@ -69,9 +45,9 @@ func purchase_item(item_index: int) -> bool:
 	var cost = item.get_current_cost()
 	
 	# Verificar si hay suficiente balance
-	if GlobalValues.hair_balls_total >= cost:
+	if GlobalValues.hair_balls_total.is_greater_or_equal(cost):
 		# Realizar la compra
-		GlobalValues.hair_balls_total -= cost
+		GlobalValues.hair_balls_total = GlobalValues.hair_balls_total.subtract(cost)
 		item.quantity += 1
 		
 		# Actualizar producción total
@@ -116,10 +92,10 @@ func purchase_bulk(item_index: int, amount: int) -> int:
 
 # Actualizar la producción total en el GameManager
 func _update_total_production() -> void:
-	var total_bps = 0.0
+	var total_bps = Big_Number.new(0, 0)
 	
 	for item in store_items:
-		total_bps += item.get_total_production()
+		total_bps = total_bps.add_another_big(item.get_total_production())  # ✅ Asignar resultado
 	
 	GlobalValues.hairs_balls_per_second = total_bps
 	emit_signal("production_changed", total_bps)
@@ -136,7 +112,7 @@ func can_afford(item_index: int) -> bool:
 		return false
 	
 	var item = store_items[item_index]
-	return GlobalValues.hair_balls_total >= item.get_current_cost()
+	return GlobalValues.hair_balls_total.is_greater(item.get_current_cost())
 
 # Guardar progreso de la tienda
 func save_data() -> Dictionary:
@@ -156,3 +132,44 @@ func load_data(data: Dictionary) -> void:
 			store_items[i].from_dict(items_data[i])
 	
 	_update_total_production()
+
+# Crear botones de items
+func items_creation():
+	var index = 0 
+	for item in store_items:
+		print(item.item_name)
+		var new_item = reference_item_button.instantiate()
+		
+		# Pasar todas las propiedades del Resource al Button
+		new_item.store_index = int(index)
+		new_item.item_name = item.item_name
+		new_item.description = item.description
+		#new_item.icon = item.icon  # Descomenta si usas iconos
+		new_item.base_cost = item.base_cost
+		new_item.base_production = item.base_production
+		new_item.cost_multiplier = item.cost_multiplier
+		new_item.amort_time = item.amort_time
+		new_item.quantity = item.quantity
+		
+		# Asignar nombre y agregar al contenedor
+		new_item.name = item.item_name
+		v_box_container.add_child(new_item)
+		
+		index += 1
+
+func _load_store_items() -> void:
+	var dir = DirAccess.open("res://resources/items/")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var item = load("res://resources/items/" + file_name) as StoreItem
+				if item:
+					store_items.append(item)
+			file_name = dir.get_next()
+		
+		dir.list_dir_end()
+	else:
+		push_error("No se pudo abrir la carpeta de items")

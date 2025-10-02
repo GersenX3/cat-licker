@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://dhia1kg7gdfcw"]
+
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_bgok2"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_h2232"]
+
+[sub_resource type="Resource" id="Resource_bjg73"]
+script = ExtResource("1_bgok2")
+mantisa = 1.4
+metadata/_custom_type_script = "uid://cux2ph57gpruq"
+
+[sub_resource type="Resource" id="Resource_a82wo"]
+script = ExtResource("1_bgok2")
+mantisa = 6.5
+metadata/_custom_type_script = "uid://cux2ph57gpruq"
+
+[resource]
+script = ExtResource("2_h2232")
+item_name = "Teleport Tunnel"
+base_cost = SubResource("Resource_bjg73")
+base_production = SubResource("Resource_a82wo")
+store_index = 11
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://2e0v0yifybhp"]
+
+[ext_resource type="Texture2D" uid="uid://g7u23i4gkjib" path="res://assets/sprites/items/example.png" id="1_4gq7n"]
+[ext_resource type="FontFile" uid="uid://b4r6ar0jknee2" path="res://assets/fonts/PixelOperator8.ttf" id="1_s8enn"]
+[ext_resource type="Script" uid="uid://cqa6nm1bfh6fi" path="res://scripts/button_item.gd" id="3_6muww"]
+
+[node name="Item0" type="Button"]
+offset_right = 336.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_s8enn")
+text = "Zapatooooooooooooo"
+icon = ExtResource("1_4gq7n")
+alignment = 0
+script = ExtResource("3_6muww")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

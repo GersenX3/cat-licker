@@ -7,29 +7,37 @@ class_name StoreItem
 @export var icon: Texture2D = null
 
 # Economía (basado en Cookie Clicker)
-@export var base_cost: float = 15.0  # Costo inicial
-@export var base_production: float = 0.1  # BpS (Balls per Second)
+@export var base_cost: Big_Number  # Costo inicial
+@export var base_production: Big_Number  # BpS (Balls per Second)
 @export var cost_multiplier: float = 1.15  # Factor exponencial (15% como Cookie Clicker)
-
+@export var store_index: int = 0
+@export var amort_time: Big_Number
 # Estado actual
 var quantity: int = 0  # Cantidad comprada
 
 # Calculadora de costo exponencial
 # Fórmula: C_n = C_1 * r^(n-1)
 # Donde r = cost_multiplier y n = próxima cantidad
-func get_current_cost() -> float:
-	return base_cost * pow(cost_multiplier, quantity)
+func get_current_cost() -> Big_Number:
+	# costo = base_cost * (cost_multiplier ^ quantity)
+	var exp_cost = pow(cost_multiplier, quantity)
+	return base_cost.multiply(Big_Number.from_float(exp_cost))
 
 # Producción total de todas las unidades compradas
-func get_total_production() -> float:
-	return base_production * quantity
+func get_total_production() -> Big_Number:
+	# producción = base_production * quantity
+	return base_production.multiply(Big_Number.from_float(quantity))
 
 # Tiempo de amortización (en segundos)
 # Cuánto tiempo tarda en recuperar la inversión
 func get_payback_time() -> float:
-	if base_production <= 0:
+	# tiempo = costo / producción
+	var prod = get_total_production()
+	if prod.mantisa <= 0.0:
 		return INF
-	return get_current_cost() / base_production
+	var cost = get_current_cost()
+	# devolvemos como float (segundos), aproximado
+	return (cost.mantisa * pow(10.0, cost.exp)) / (prod.mantisa * pow(10.0, prod.exp))
 
 # Comprar una unidad (retorna true si fue exitoso)
 func try_purchase(current_balance: float) -> bool:
@@ -41,33 +49,42 @@ func try_purchase(current_balance: float) -> bool:
 
 # Obtener el costo para comprar múltiples unidades
 # Suma geométrica: S = a * (r^n - 1) / (r - 1)
-func get_bulk_cost(amount: int) -> float:
+func get_bulk_cost(amount: int) -> Big_Number:
 	if amount <= 0:
-		return 0.0
+		return Big_Number.new(0.0, 0)
 	
 	var r = cost_multiplier
 	var current_cost = get_current_cost()
 	
-	# Suma de la serie geométrica
+	# Fórmula de suma geométrica: S = a * (r^n - 1) / (r - 1)
 	if r == 1.0:
-		return current_cost * amount
+		return current_cost.multiply(Big_Number.from_float(amount))
 	else:
-		return current_cost * (pow(r, amount) - 1.0) / (r - 1.0)
+		var numerator = pow(r, amount) - 1.0
+		var denominator = r - 1.0
+		var factor = numerator / denominator
+		return current_cost.multiply(Big_Number.from_float(factor))
 
 # Comprar múltiples unidades
-func try_bulk_purchase(current_balance: float, amount: int) -> int:
+func try_bulk_purchase(current_balance: Big_Number, amount: int) -> int:
 	var purchased = 0
-	var cost = get_bulk_cost(amount)
+	var total_cost = get_bulk_cost(amount)
 	
-	if current_balance >= cost:
+	# Si alcanza para todas las unidades
+	if current_balance.is_greater(total_cost) or not total_cost.is_greater(current_balance):
 		quantity += amount
 		return amount
 	else:
-		# Comprar la cantidad máxima posible
+		# Comprar la cantidad máxima posible una por una
 		for i in range(amount):
-			if current_balance >= get_current_cost():
+			var cost = get_current_cost()
+			if current_balance.is_greater(cost) or not cost.is_greater(current_balance):
 				quantity += 1
-				current_balance -= get_current_cost()
+				# restamos balance = balance - cost
+				current_balance = Big_Number.from_float(
+					(current_balance.mantisa * pow(10.0, current_balance.exp)) -
+					(cost.mantisa * pow(10.0, cost.exp))
+				)
 				purchased += 1
 			else:
 				break
@@ -87,12 +104,11 @@ static func format_number(value: float) -> String:
 	else:
 		return str(snappedf(value / 1_000_000_000_000.0, 0.1)) + "T"
 
-# Obtener info formateada para UI
 func get_info_text() -> String:
 	return "%s\nCosto: %s\nProducción: %s BpS\nPoseído: %d" % [
 		item_name,
-		format_number(get_current_cost()),
-		format_number(base_production),
+		get_current_cost().to_readable_string(),
+		get_total_production().to_readable_string(),
 		quantity
 	]
 

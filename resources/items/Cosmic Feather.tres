@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://caqmyinxwgg21"]
+
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_vxyn0"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_3pmxg"]
+
+[sub_resource type="Resource" id="Resource_vc5cj"]
+script = ExtResource("1_vxyn0")
+mantisa = 3.3
+metadata/_custom_type_script = "uid://cux2ph57gpruq"
+
+[sub_resource type="Resource" id="Resource_152kg"]
+script = ExtResource("1_vxyn0")
+mantisa = 4.4
+metadata/_custom_type_script = "uid://cux2ph57gpruq"
+
+[resource]
+script = ExtResource("2_3pmxg")
+item_name = "Cosmic Feather"
+base_cost = SubResource("Resource_vc5cj")
+base_production = SubResource("Resource_152kg")
+store_index = 7
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"

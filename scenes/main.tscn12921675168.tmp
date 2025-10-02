@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://bqsfw81u8fnnp"]
+[gd_scene load_steps=67 format=4 uid="uid://bqsfw81u8fnnp"]
 
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://tqmsp687g567" path="res://assets/tiles/PiedraClara.png" id="2_0ld40"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://fo3o0smfhs5y" path="res://scripts/label_total.gd" id="16_5q0nq"]
 [ext_resource type="Script" uid="uid://c8whnunyh5ndy" path="res://scripts/button_licker.gd" id="17_dgi5k"]
 [ext_resource type="PackedScene" uid="uid://d15bowe5yf074" path="res://scenes/store.tscn" id="18_dp3eg"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="19_0ld40"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u5g"]
 shader = ExtResource("1_dp3eg")
@@ -1015,6 +1016,106 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_0ld40"]
+script = ExtResource("19_0ld40")
+item_name = "Rough Tongue"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_gqmmt"]
+script = ExtResource("19_0ld40")
+item_name = "Magic Brush"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_yc10j"]
+script = ExtResource("19_0ld40")
+item_name = "Little Yarn Ball"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_jscy8"]
+script = ExtResource("19_0ld40")
+item_name = "Hypnotic Scratching Post"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_pm3ni"]
+script = ExtResource("19_0ld40")
+item_name = "Quantum Catnip"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_y6deb"]
+script = ExtResource("19_0ld40")
+item_name = "Perpetual Laser"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_og1vs"]
+script = ExtResource("19_0ld40")
+item_name = "Dimensional Cardboard Box"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_2wyq8"]
+script = ExtResource("19_0ld40")
+item_name = "Cosmic Feather"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_vxglm"]
+script = ExtResource("19_0ld40")
+item_name = "Mechanical Mouse"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_2f3dj"]
+script = ExtResource("19_0ld40")
+item_name = "Infinite Scratching Tower"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_yq6so"]
+script = ExtResource("19_0ld40")
+item_name = "Eternal Milk Fountain"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_fv21b"]
+script = ExtResource("19_0ld40")
+item_name = "Teleport Tunnel"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_tel4y"]
+script = ExtResource("19_0ld40")
+item_name = "Solar Hammock"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_qkpxi"]
+script = ExtResource("19_0ld40")
+item_name = "Petting Robot"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_5q0nq"]
+script = ExtResource("19_0ld40")
+item_name = "Window to Another Dimension"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_dgi5k"]
+script = ExtResource("19_0ld40")
+item_name = "Generator Collar"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_j8jky"]
+script = ExtResource("19_0ld40")
+item_name = "Self-Cleaning Magic Litter"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_kmb1v"]
+script = ExtResource("19_0ld40")
+item_name = "Feline Cloner"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_fuf3a"]
+script = ExtResource("19_0ld40")
+item_name = "Kitty Time Machine"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
+[sub_resource type="Resource" id="Resource_pibwh"]
+script = ExtResource("19_0ld40")
+item_name = "MANGO"
+metadata/_custom_type_script = "uid://c5ai1c8dvjg6w"
+
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -1224,5 +1325,6 @@ offset_left = 784.0
 offset_top = 128.0
 offset_right = 784.0
 offset_bottom = 128.0
+store_items = Array[ExtResource("19_0ld40")]([SubResource("Resource_0ld40"), SubResource("Resource_gqmmt"), SubResource("Resource_yc10j"), SubResource("Resource_jscy8"), SubResource("Resource_pm3ni"), SubResource("Resource_y6deb"), SubResource("Resource_og1vs"), SubResource("Resource_2wyq8"), SubResource("Resource_vxglm"), SubResource("Resource_2f3dj"), SubResource("Resource_yq6so"), SubResource("Resource_fv21b"), SubResource("Resource_tel4y"), SubResource("Resource_qkpxi"), SubResource("Resource_5q0nq"), SubResource("Resource_dgi5k"), SubResource("Resource_j8jky"), SubResource("Resource_kmb1v"), SubResource("Resource_fuf3a"), SubResource("Resource_pibwh")])
 
 [connection signal="pressed" from="UI/HUB/Button" to="UI/HUB/Button" method="_on_pressed"]
