@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://caj65hda8q58b"]
+
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/item_store.gd" id="1_jnunr"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_jnunr")
+item_name = "Lengua"

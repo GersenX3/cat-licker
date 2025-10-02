@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://bqsfw81u8fnnp"]
+[gd_scene load_steps=46 format=4 uid="uid://bqsfw81u8fnnp"]
 
 [ext_resource type="Texture2D" uid="uid://tqmsp687g567" path="res://assets/tiles/PiedraClara.png" id="1_nxtc6"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_q8u5g"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://c8whnunyh5ndy" path="res://scripts/button_licker.gd" id="15_cvmbd"]
 [ext_resource type="Script" uid="uid://fo3o0smfhs5y" path="res://scripts/label_total.gd" id="16_cvmbd"]
 [ext_resource type="FontFile" uid="uid://b4r6ar0jknee2" path="res://assets/fonts/PixelOperator8.ttf" id="16_ft6cd"]
+[ext_resource type="Script" uid="uid://cj7pwkb0yctbo" path="res://scripts/store.gd" id="18_bb450"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u5g"]
 shader = ExtResource("1_q8u5g")
@@ -1132,7 +1133,7 @@ scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_qmy6f")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.41422358
+frame_progress = 0.99451554
 metadata/_edit_lock_ = true
 
 [node name="total" type="Label" parent="UI/HUB"]
@@ -1196,16 +1197,15 @@ text = "per second"
 metadata/_edit_lock_ = true
 
 [node name="Button" type="Button" parent="UI/HUB"]
-offset_left = 480.0
+offset_left = 496.0
 offset_top = 240.0
-offset_right = 672.0
-offset_bottom = 464.0
-flat = true
+offset_right = 656.0
+offset_bottom = 456.0
 script = ExtResource("15_cvmbd")
-metadata/_edit_lock_ = true
 
 [node name="Inventory" type="Node2D" parent="UI"]
 
 [node name="Store" type="Node2D" parent="UI"]
+script = ExtResource("18_bb450")
 
 [connection signal="pressed" from="UI/HUB/Button" to="UI/HUB/Button" method="_on_pressed"]
