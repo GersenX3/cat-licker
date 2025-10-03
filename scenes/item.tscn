@@ -1,16 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://2e0v0yifybhp"]
+[gd_scene load_steps=5 format=3 uid="uid://2e0v0yifybhp"]
 
 [ext_resource type="Texture2D" uid="uid://g7u23i4gkjib" path="res://assets/sprites/items/example.png" id="1_4gq7n"]
 [ext_resource type="FontFile" uid="uid://b4r6ar0jknee2" path="res://assets/fonts/PixelOperator8.ttf" id="1_s8enn"]
+[ext_resource type="FontFile" uid="uid://c18d58cxjxn71" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_vljjh"]
 [ext_resource type="Script" uid="uid://cqa6nm1bfh6fi" path="res://scripts/button_item.gd" id="3_6muww"]
 
 [node name="Item0" type="Button"]
 offset_right = 336.0
 offset_bottom = 64.0
-theme_override_fonts/font = ExtResource("1_s8enn")
-text = "Zapatooooooooooooo"
+theme_override_fonts/font = ExtResource("1_vljjh")
 icon = ExtResource("1_4gq7n")
 alignment = 0
 script = ExtResource("3_6muww")
+
+[node name="Price" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 40.0
+offset_right = 114.0
+offset_bottom = 63.0
+theme_override_fonts/font = ExtResource("1_s8enn")
+text = "10m"
+
+[node name="Prod" type="Label" parent="."]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 63.0
+theme_override_fonts/font = ExtResource("1_s8enn")
+text = "10 B/S"
+
+[node name="Owned" type="Label" parent="."]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 40.0
+offset_right = 304.0
+offset_bottom = 63.0
+theme_override_fonts/font = ExtResource("1_s8enn")
+text = "10"
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 174.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("1_vljjh")
+text = "ZApato"
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

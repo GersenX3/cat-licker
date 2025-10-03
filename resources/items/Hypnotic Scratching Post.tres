@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://bbjlbagy8jjwm"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://bbjlbagy8jjwm"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_irpvj"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_iwtv7"]
+[ext_resource type="Texture2D" uid="uid://cmmc581n324du" path="res://assets/sprites/items/5.png" id="2_kchh6"]
 
 [sub_resource type="Resource" id="Resource_chjal"]
 script = ExtResource("1_irpvj")
 mantisa = 1.2
+exponential = 4
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_ro3en"]
@@ -16,6 +18,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_iwtv7")
 item_name = "Hypnotic Scratching Post"
+icon = ExtResource("2_kchh6")
 base_cost = SubResource("Resource_chjal")
 base_production = SubResource("Resource_ro3en")
 store_index = 3

@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://bs6sg7yqin42g"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://bs6sg7yqin42g"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_k0rn0"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_672pn"]
+[ext_resource type="Texture2D" uid="uid://xwttegwcxgco" path="res://assets/sprites/items/6.png" id="2_efysu"]
 
 [sub_resource type="Resource" id="Resource_cjqg0"]
 script = ExtResource("1_k0rn0")
 mantisa = 1.3
+exponential = 5
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_od4ux"]
@@ -16,6 +18,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_672pn")
 item_name = "Quantum Catnip"
+icon = ExtResource("2_efysu")
 base_cost = SubResource("Resource_cjqg0")
 base_production = SubResource("Resource_od4ux")
 store_index = 4

@@ -6,6 +6,7 @@
 [sub_resource type="Resource" id="Resource_bu4jf"]
 script = ExtResource("1_q88n1")
 mantisa = 1.7
+exponential = 14
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_gdvew"]

@@ -38,17 +38,38 @@ func _ready() -> void:
 
 # Intentar comprar un item
 func purchase_item(item_index: int) -> bool:
+	print("=== PURCHASE ATTEMPT ===")
+	print("Item index: ", item_index)
+	
 	if item_index < 0 or item_index >= store_items.size():
+		print("ERROR: Index out of bounds")
 		return false
 	
 	var item = store_items[item_index]
+	print("Item name: ", item.item_name)
+	print("Item quantity before: ", item.quantity)
+	
 	var cost = item.get_current_cost()
+	print("Cost calculated: ", cost.to_readable_string())
+	print("Current balance: ", GlobalValues.hair_balls_total.to_readable_string())
 	
 	# Verificar si hay suficiente balance
-	if GlobalValues.hair_balls_total.is_greater_or_equal(cost):
+	var has_enough = GlobalValues.hair_balls_total.is_greater_or_equal(cost)
+	print("Has enough funds? ", has_enough)
+	print("Comparison result (balance >= cost): ", has_enough)
+	
+	if has_enough:
+		print("✓ PURCHASE APPROVED - Processing...")
+		
 		# Realizar la compra
+		var balance_before = GlobalValues.hair_balls_total
 		GlobalValues.hair_balls_total = GlobalValues.hair_balls_total.subtract(cost)
+		
+		print("Balance before: ", balance_before.to_readable_string())
+		print("Balance after: ", GlobalValues.hair_balls_total.to_readable_string())
+		
 		item.quantity += 1
+		print("Item quantity after: ", item.quantity)
 		
 		# Actualizar producción total
 		_update_total_production()
@@ -56,8 +77,12 @@ func purchase_item(item_index: int) -> bool:
 		# Emitir señales
 		print("item_purchased", item)
 		print("balance_changed", GlobalValues.hair_balls_total)
+		print("=== PURCHASE COMPLETED ===\n")
 		
 		return true
+	else:
+		print("✗ PURCHASE DENIED - Insufficient funds")
+		print("=== PURCHASE FAILED ===\n")
 	
 	return false
 
@@ -135,6 +160,9 @@ func load_data(data: Dictionary) -> void:
 
 # Crear botones de items
 func items_creation():
+	# Ordenar store_items por store_index de menor a mayor
+	store_items.sort_custom(func(a, b): return a.store_index < b.store_index)
+	
 	var index = 0 
 	for item in store_items:
 		print(item.item_name)
@@ -144,7 +172,7 @@ func items_creation():
 		new_item.store_index = int(index)
 		new_item.item_name = item.item_name
 		new_item.description = item.description
-		#new_item.icon = item.icon  # Descomenta si usas iconos
+		new_item.icon = item.icon  # Descomenta si usas iconos
 		new_item.base_cost = item.base_cost
 		new_item.base_production = item.base_production
 		new_item.cost_multiplier = item.cost_multiplier
