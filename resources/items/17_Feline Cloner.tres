@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://e11erxgwpd1c"]
 
-[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_2pm5l"]
-[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_ktkvs"]
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_xcggb"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_0v872"]
 
 [sub_resource type="Resource" id="Resource_1v6qk"]
-script = ExtResource("1_2pm5l")
+script = ExtResource("1_xcggb")
 mantisa = 1.2
 exponential = 22
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_ksmap"]
-script = ExtResource("1_2pm5l")
+script = ExtResource("1_xcggb")
 mantisa = 2.368
+exponential = 12
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [resource]
-script = ExtResource("2_ktkvs")
+script = ExtResource("2_0v872")
 item_name = "Feline Cloner"
 base_cost = SubResource("Resource_1v6qk")
 base_production = SubResource("Resource_ksmap")

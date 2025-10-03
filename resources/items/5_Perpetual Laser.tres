@@ -1,24 +1,25 @@
 [gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://m7j0qrel5c5s"]
 
-[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_vymxu"]
-[ext_resource type="Texture2D" uid="uid://cn7dejy3loqvy" path="res://assets/sprites/items/7.png" id="2_8qe03"]
-[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_30fdx"]
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_8atmq"]
+[ext_resource type="Texture2D" uid="uid://cn7dejy3loqvy" path="res://assets/sprites/items/7.png" id="2_sl47x"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="3_jbwjb"]
 
 [sub_resource type="Resource" id="Resource_vchkt"]
-script = ExtResource("1_vymxu")
+script = ExtResource("1_8atmq")
 mantisa = 1.4
 exponential = 6
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_xhfw6"]
-script = ExtResource("1_vymxu")
+script = ExtResource("1_8atmq")
 mantisa = 1.4
+exponential = 3
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [resource]
-script = ExtResource("2_30fdx")
+script = ExtResource("3_jbwjb")
 item_name = "Perpetual Laser"
-icon = ExtResource("2_8qe03")
+icon = ExtResource("2_sl47x")
 base_cost = SubResource("Resource_vchkt")
 base_production = SubResource("Resource_xhfw6")
 store_index = 5

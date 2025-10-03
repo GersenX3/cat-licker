@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://dc3jxadgbu8uq"]
 
-[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_q88n1"]
-[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_o6hcq"]
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_nxkd3"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_672hr"]
 
 [sub_resource type="Resource" id="Resource_bu4jf"]
-script = ExtResource("1_q88n1")
+script = ExtResource("1_nxkd3")
 mantisa = 1.7
 exponential = 14
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_gdvew"]
-script = ExtResource("1_q88n1")
+script = ExtResource("1_nxkd3")
 mantisa = 4.3
+exponential = 8
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [resource]
-script = ExtResource("2_o6hcq")
+script = ExtResource("2_672hr")
 item_name = "Solar Hammock"
 base_cost = SubResource("Resource_bu4jf")
 base_production = SubResource("Resource_gdvew")

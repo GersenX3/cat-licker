@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://ccc8hsh7ca5qd"]
 
-[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_amge7"]
-[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_xgboq"]
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_qryix"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_qck6h"]
 
 [sub_resource type="Resource" id="Resource_o7ddy"]
-script = ExtResource("1_amge7")
+script = ExtResource("1_qryix")
 mantisa = 2.1
 exponential = 15
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_kjtvk"]
-script = ExtResource("1_amge7")
+script = ExtResource("1_qryix")
 mantisa = 2.9
+exponential = 9
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [resource]
-script = ExtResource("2_xgboq")
+script = ExtResource("2_qck6h")
 item_name = "Petting Robot"
 base_cost = SubResource("Resource_o7ddy")
 base_production = SubResource("Resource_kjtvk")

@@ -1,24 +1,24 @@
 [gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://63pa2hartitk"]
 
-[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_6shuv"]
-[ext_resource type="Texture2D" uid="uid://d4i7bke60cx25" path="res://assets/sprites/items/4.png" id="2_1n78t"]
-[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_4r8mc"]
+[ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_mkrst"]
+[ext_resource type="Texture2D" uid="uid://d4i7bke60cx25" path="res://assets/sprites/items/4.png" id="2_rkig6"]
+[ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="3_y6qxt"]
 
 [sub_resource type="Resource" id="Resource_2cjbq"]
-script = ExtResource("1_6shuv")
+script = ExtResource("1_mkrst")
 mantisa = 1.1
 exponential = 3
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [sub_resource type="Resource" id="Resource_e755i"]
-script = ExtResource("1_6shuv")
+script = ExtResource("1_mkrst")
 mantisa = 8.0
 metadata/_custom_type_script = "uid://cux2ph57gpruq"
 
 [resource]
-script = ExtResource("2_4r8mc")
+script = ExtResource("3_y6qxt")
 item_name = "Little Yarn Ball"
-icon = ExtResource("2_1n78t")
+icon = ExtResource("2_rkig6")
 base_cost = SubResource("Resource_2cjbq")
 base_production = SubResource("Resource_e755i")
 store_index = 2
