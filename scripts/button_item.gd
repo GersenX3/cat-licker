@@ -30,6 +30,17 @@ var scroll_speed: float = 50.0  # píxeles por segundo
 var scroll_pause: float = 1.0  # pausa en segundos antes de repetir
 var original_name_text: String = ""
 
+# Estados del botón
+enum ButtonState {
+	HIDDEN,      # No visible aún (< 1/4 del costo)
+	GHOST,       # Silueta (>= 1/4 del costo)
+	LOCKED,      # Completo pero disabled (>= 1/2 del costo)
+	UNLOCKED     # Desbloqueado y funcional
+}
+
+var current_state: ButtonState = ButtonState.HIDDEN
+var has_been_unlocked: bool = false  # Si ya alcanzó el estado UNLOCKED alguna vez
+
 func _ready() -> void:
 	custom_minimum_size = Vector2(344, 64)
 	
@@ -37,6 +48,12 @@ func _ready() -> void:
 	setup_scroll_system()
 	
 	update_labels()
+	update_button_state()
+
+
+func _process(_delta: float) -> void:
+	# Actualizar estado del botón constantemente
+	update_button_state()
 
 func setup_scroll_system() -> void:
 	# Guardar el texto original y ocultar el label original
@@ -72,6 +89,10 @@ func setup_scroll_system() -> void:
 	name_label.visible = false
 
 func _on_pressed() -> void:
+	# Solo permitir compra si está desbloqueado
+	if current_state != ButtonState.UNLOCKED:
+		return
+	
 	print(self.text)
 	if Store.purchase_item(self.store_index):
 		# Actualizar labels después de la compra
@@ -92,6 +113,83 @@ func update_labels() -> void:
 func calculate_current_cost() -> Big_Number:
 	# Fórmula: base_cost * (cost_multiplier ^ quantity)
 	return base_cost.multiply(Big_Number.new(pow(cost_multiplier, quantity)))
+
+# Actualizar el estado visual del botón
+# Actualizar el estado visual del botón
+func update_button_state() -> void:
+	var current_balance = GlobalValues.hair_balls_total
+	var cost = calculate_current_cost()
+	
+	# Si ya fue desbloqueado, solo alternar entre LOCKED y UNLOCKED
+	if has_been_unlocked:
+		if current_balance.is_greater_or_equal(cost):
+			current_state = ButtonState.UNLOCKED
+		else:
+			current_state = ButtonState.LOCKED
+		apply_visual_state()
+		return
+	
+	# Calcular umbrales solo si no ha sido desbloqueado
+	var quarter_cost = cost.multiply(Big_Number.new(0.25, 0))
+	var half_cost = cost.multiply(Big_Number.new(0.5, 0))
+	
+	var new_state: ButtonState
+	
+	# Determinar nuevo estado
+	if current_balance.is_less(quarter_cost):
+		new_state = ButtonState.HIDDEN
+	elif current_balance.is_less(half_cost):
+		new_state = ButtonState.GHOST
+	elif current_balance.is_less(cost):
+		new_state = ButtonState.LOCKED
+		has_been_unlocked = true  # Marcar como desbloqueado
+	else:
+		new_state = ButtonState.UNLOCKED
+		has_been_unlocked = true  # Marcar como desbloqueado
+	
+	# Aplicar cambios visuales solo si el estado cambió
+	if new_state != current_state:
+		current_state = new_state
+		apply_visual_state()
+
+# Aplicar el estado visual correspondiente
+func apply_visual_state() -> void:
+	match current_state:
+		ButtonState.HIDDEN:
+			visible = false
+		
+		ButtonState.GHOST:
+			visible = true
+			disabled = true
+			modulate = Color(1, 1, 1, 0.3)  # Muy transparente
+			
+			# Ocultar labels
+			price_label.visible = false
+			prod_label.visible = false
+			owned_label.visible = false
+			scroll_container.visible = false
+		
+		ButtonState.LOCKED:
+			visible = true
+			disabled = true
+			modulate = Color(0.7, 0.7, 0.7, 1.0)  # Ligeramente oscurecido
+			
+			# Mostrar labels
+			price_label.visible = true
+			prod_label.visible = true
+			owned_label.visible = true
+			scroll_container.visible = true
+		
+		ButtonState.UNLOCKED:
+			visible = true
+			disabled = false
+			modulate = Color(1, 1, 1, 1)  # Color normal
+			
+			# Mostrar labels
+			price_label.visible = true
+			prod_label.visible = true
+			owned_label.visible = true
+			scroll_container.visible = true
 
 # Verificar si el nombre necesita scroll
 func check_name_scroll() -> void:
@@ -129,7 +227,7 @@ func start_name_scroll(text_width: float) -> void:
 	scroll_label.text = multiplied_text
 	
 	# Calcular duración basada en velocidad
-	var scroll_distance = text_width + 60  # +40 por el separador "   •   "
+	var scroll_distance = text_width + 60
 	var duration = scroll_distance / scroll_speed
 	
 	# Resetear posición
@@ -153,3 +251,11 @@ func stop_name_scroll() -> void:
 	# Restaurar texto original sin multiplicar
 	scroll_label.text = str(self.name)
 	scroll_label.position.x = 0
+
+# Verificar si debe ser visible (llamado desde Store)
+func should_be_visible() -> bool:
+	var current_balance = GlobalValues.hair_balls_total
+	var cost = calculate_current_cost()
+	var quarter_cost = cost.multiply(Big_Number.new(0.25, 0))
+	
+	return current_balance.is_greater_or_equal(quarter_cost) or has_been_unlocked

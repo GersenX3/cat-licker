@@ -167,6 +167,7 @@ func load_data(data: Dictionary) -> void:
 	_update_total_production()
 
 # Crear botones de items
+# Crear botones de items
 func items_creation():
 	# Ordenar store_items por store_index de menor a mayor
 	store_items.sort_custom(func(a, b): return a.store_index < b.store_index)
@@ -180,7 +181,7 @@ func items_creation():
 		new_item.store_index = int(index)
 		new_item.item_name = item.item_name
 		new_item.description = item.description
-		new_item.icon = item.icon  # Descomenta si usas iconos
+		new_item.icon = item.icon
 		new_item.base_cost = item.base_cost
 		new_item.base_production = item.base_production
 		new_item.cost_multiplier = item.cost_multiplier
@@ -190,6 +191,8 @@ func items_creation():
 		# Asignar nombre y agregar al contenedor
 		new_item.name = item.item_name
 		v_box_container.add_child(new_item)
+		
+		# El botón manejará su propia visibilidad en _ready()
 		
 		index += 1
 

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cqa6nm1bfh6fi" path="res://scripts/button_item.gd" id="3_6muww"]
 
 [node name="Item0" type="Button"]
+visible = false
 offset_right = 336.0
 offset_bottom = 64.0
 theme_override_fonts/font = ExtResource("1_vljjh")
