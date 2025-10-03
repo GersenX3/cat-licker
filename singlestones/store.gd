@@ -11,13 +11,21 @@ var reference_item_button = preload("res://scenes/item.tscn")
 @onready var v_box_container: VBoxContainer = get_node_or_null("/root/Main/UI/Store/ScrollContainer/StoreContainer")
 
 func _ready() -> void:
+	print("=== STORE INITIALIZATION START ===")
+	print("GlobalValues.hair_balls_total BEFORE: ", GlobalValues.hair_balls_total.to_readable_string())
+	print("GlobalValues.hairs_balls_per_second BEFORE: ", GlobalValues.hairs_balls_per_second.to_readable_string())
 	
-	## Si no tienes items preconfigurados, créalos
-	#if store_items.is_empty():
-		#_create_default_items()
 	_load_store_items()
-	# Actualizar producción total al iniciar
+	
+	print("\n=== ITEMS LOADED ===")
+	for i in range(store_items.size()):
+		var item = store_items[i]
+		print("Item[", i, "]: ", item.item_name, " | quantity: ", item.quantity, " | base_prod: ", item.base_production.to_readable_string())
+	
 	_update_total_production()
+	
+	print("\n=== AFTER UPDATE PRODUCTION ===")
+	print("GlobalValues.hairs_balls_per_second AFTER: ", GlobalValues.hairs_balls_per_second.to_readable_string())
 
 
 #func _process(_delta: float) -> void:
@@ -195,7 +203,14 @@ func _load_store_items() -> void:
 			if file_name.ends_with(".tres"):
 				var item = load("res://resources/items/" + file_name) as StoreItem
 				if item:
-					store_items.append(item)
+					# ✅ OPCIÓN 1: Duplicar el recurso para no modificar el original
+					var item_instance = item.duplicate()
+					item_instance.quantity = 0  # Resetear cantidad
+					store_items.append(item_instance)
+					
+					# ✅ OPCIÓN 2: Solo resetear (comentar opción 1 si usas esta)
+					# item.quantity = 0
+					# store_items.append(item)
 			file_name = dir.get_next()
 		
 		dir.list_dir_end()

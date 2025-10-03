@@ -16,14 +16,19 @@ func _init(m: float = 0.0, e: int = 0):
 	_normalize()
 
 # Normaliza el número (mantisa siempre < 10)
+# Normaliza el número (mantisa siempre < 10)
 func _normalize() -> void:
+	# Si la mantisa es cero, resetear exponente
+	if mantisa == 0.0:
+		exponential = 0
+		return
+	
 	while mantisa >= 10.0:
 		mantisa /= 10.0
 		exponential += 1
 	while mantisa > 0 and mantisa < 1.0:
 		mantisa *= 10.0
 		exponential -= 1
-
 # Convierte un float a Big_Number
 static func from_float(value: float) -> Big_Number:
 	if value == 0.0:

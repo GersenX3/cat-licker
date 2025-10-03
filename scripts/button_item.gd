@@ -81,8 +81,8 @@ func _on_pressed() -> void:
 # Función para actualizar todos los labels
 func update_labels() -> void:
 	scroll_label.text = str(self.name)
-	price_label.text = "$" + str(calculate_current_cost().to_readable_string())
-	prod_label.text = str(base_production.to_readable_string()) + "B/S"
+	price_label.text = "$ " + str(calculate_current_cost().to_readable_string())
+	prod_label.text = str(base_production.to_readable_string()) + " b/s"
 	owned_label.text = str(quantity)
 	
 	# Verificar si necesita scroll después de actualizar el texto
