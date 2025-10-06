@@ -98,6 +98,18 @@ func _on_pressed() -> void:
 		# Actualizar labels después de la compra
 		quantity += 1
 		update_labels()
+		# Animar el botón
+		shake_button()
+
+func shake_button() -> void:
+	var tween = create_tween()
+	var original_scale = Vector2(1, 1)  # Escala base fija
+	
+	# Efecto de "rebote" al hacer click
+	tween.tween_property(self, "scale", original_scale * 1.1, 0.05)
+	tween.tween_property(self, "scale", original_scale * 0.95, 0.05)
+	tween.tween_property(self, "scale", original_scale * 1.05, 0.05)
+	tween.tween_property(self, "scale", original_scale, 0.05)
 
 # Función para actualizar todos los labels
 func update_labels() -> void:

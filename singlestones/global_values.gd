@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	# Multiplica mantisa por delta, mantiene exponente
-	var increment_mantisa = hairs_balls_per_second.mantisa * _delta
+	var increment_mantisa = hairs_balls_per_second.mantisa * _delta * 128 * 128 * 128
 	var increment = Big_Number.new(increment_mantisa, hairs_balls_per_second.exponential)
 	
 	# Suma al total
