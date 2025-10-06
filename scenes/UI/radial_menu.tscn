@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cylca5xchwwkh"]
+
+[ext_resource type="Script" uid="uid://cgwh3wx13yyb" path="res://GAME/scripts/radial_menu_control.gd" id="1_o6j70"]
+
+[node name="RadialMenu" type="Node2D"]
+
+[node name="RadialMenuControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 203.0
+offset_top = 104.0
+offset_right = 243.0
+offset_bottom = 144.0
+script = ExtResource("1_o6j70")
+
+[node name="OptionsContainer" type="Control" parent="RadialMenuControl"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

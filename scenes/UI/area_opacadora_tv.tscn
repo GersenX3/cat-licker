@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuu3br4x7xenm"]
+
+[ext_resource type="Script" uid="uid://duvfw3ng3ef50" path="res://GAME/scripts/area_opacadora_tv.gd" id="1_4067v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge3co"]
+size = Vector2(128, 96)
+
+[node name="AreaOpacadoraTv" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_4067v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-56, 40)
+shape = SubResource("RectangleShape2D_ge3co")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

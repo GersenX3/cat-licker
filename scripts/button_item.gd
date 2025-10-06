@@ -5,7 +5,7 @@ extends Button
 @onready var owned_label: Label = $Owned
 @onready var name_label: Label = $Name
 
-# Propiedades base del item
+
 var item_name: String = "Item"
 var description: String = "Descripción del item"
 #var icon: Texture2D = null
@@ -89,6 +89,9 @@ func setup_scroll_system() -> void:
 	name_label.visible = false
 
 func _on_pressed() -> void:
+	#Create animation with icon
+	MusicManager.play_sound("res://assets/sfx/bounce.wav", 2, true, 1, self.global_position)
+	
 	# Solo permitir compra si está desbloqueado
 	if current_state != ButtonState.UNLOCKED:
 		return
@@ -100,6 +103,106 @@ func _on_pressed() -> void:
 		update_labels()
 		# Animar el botón
 		shake_button()
+		# Crear animación del icono (puedes ajustar el offset X aquí)
+		spawn_icon_animation(-137)
+		translation_animation(Vector2(768-16, 576), Vector2(384+16, 576), 2)  # 0 = centro, valores negativos = izquierda, positivos = derecha
+
+# Crear y animar el icono flotante
+func spawn_icon_animation(x_offset: float = 0.0) -> void:
+	# Verificar que existe un icono
+	if not icon:
+		return
+	
+	# Obtener referencia a Main
+	var main_node = get_node("/root/Main")
+	if not main_node:
+		push_error("No se encontró el nodo Main")
+		return
+	
+	# Crear el Sprite2D
+	var icon_sprite = Sprite2D.new()
+	icon_sprite.texture = icon
+	icon_sprite.z_index = 0
+	# Aplicar offset X a la posición
+	icon_sprite.global_position = global_position + Vector2(size.x / 2 + x_offset, size.y / 2)
+	
+	# Ajustar escala si el icono es muy grande
+	icon_sprite.scale = Vector2(1, 1)
+	
+	# Agregar a Main
+	main_node.add_child(icon_sprite)
+	
+	# Crear animación con Tween
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	# Rotación de izquierda a derecha (balanceo)
+	tween.tween_property(icon_sprite, "rotation_degrees", -15, 0.15)
+	tween.chain().tween_property(icon_sprite, "rotation_degrees", 15, 0.3)
+	tween.chain().tween_property(icon_sprite, "rotation_degrees", -10, 0.2)
+	tween.chain().tween_property(icon_sprite, "rotation_degrees", 0, 0.15)
+	
+	# Movimiento hacia arriba
+	tween.tween_property(icon_sprite, "global_position:y", icon_sprite.global_position.y - 100, 0.8).set_ease(Tween.EASE_OUT)
+	
+	# Fade out (desaparecer)
+	tween.tween_property(icon_sprite, "modulate:a", 0.0, 0.8).set_ease(Tween.EASE_IN)
+	
+	# Escala (crecer un poco al principio)
+	tween.tween_property(icon_sprite, "scale", Vector2(0.7, 0.7), 0.2).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(icon_sprite, "scale", Vector2(0.4, 0.4), 0.6)
+	
+	# Eliminar el sprite cuando termine la animación
+	tween.tween_callback(icon_sprite.queue_free).set_delay(0.8)
+
+# Animación de traslación entre dos puntos
+# Función modificada
+func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float = 0.8) -> void:
+	# Verificar que existe un icono
+	if not icon:
+		return
+	
+	# Obtener referencia a Main
+	var main_node = get_node("/root/Main")
+	if not main_node:
+		push_error("No se encontró el nodo Main")
+		return
+	
+	# Crear el Sprite2D
+	var icon_sprite = Sprite2D.new()
+	icon_sprite.texture = icon
+	icon_sprite.z_index = 0
+	icon_sprite.global_position = from_pos
+	
+	# Ajustar escala
+	icon_sprite.scale = Vector2(1, 1)
+	
+	# Agregar a Main
+	main_node.add_child(icon_sprite)
+	
+	# Crear animación de movimiento
+	var move_tween = create_tween()
+	move_tween.tween_property(icon_sprite, "global_position", to_pos, duration).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	
+	# Crear animación de rotación continua (separada)
+	var rotation_tween = create_tween()
+	rotation_tween.set_loops()
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", -15, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 15, 0.4).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 0, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	# Al terminar la animación, agregar al VBoxContainer
+	move_tween.tween_callback(func():
+		rotation_tween.kill()
+		icon_sprite.rotation_degrees = 0
+		
+		# Obtener referencia al VBoxContainer del inventario
+		var inventory_container = get_node_or_null("/root/Main/UI/Inventory/ScrollContainer/StoreContainerIntentory")
+		if inventory_container and inventory_container.has_method("add_icon"):
+			# Reparentar el icono al VBoxContainer
+			icon_sprite.get_parent().remove_child(icon_sprite)
+			inventory_container.call("add_icon", icon_sprite)
+	).set_delay(duration)
 
 func shake_button() -> void:
 	var tween = create_tween()

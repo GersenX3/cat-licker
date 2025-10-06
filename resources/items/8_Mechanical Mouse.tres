@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://d3hrhb8ktvw18"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://d3hrhb8ktvw18"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_mkgic"]
+[ext_resource type="Texture2D" uid="uid://dd8oodnwvnl2n" path="res://assets/sprites/items/Sprite-0002.png" id="2_7wm8q"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_tmbxu"]
 
 [sub_resource type="Resource" id="Resource_nvyfr"]
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_tmbxu")
 item_name = "Mechanical Mouse"
+icon = ExtResource("2_7wm8q")
 base_cost = SubResource("Resource_nvyfr")
 base_production = SubResource("Resource_r4e17")
 store_index = 8

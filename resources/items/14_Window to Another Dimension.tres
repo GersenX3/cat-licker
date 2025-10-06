@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://bfvufw2kjlewe"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://bfvufw2kjlewe"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_al2nt"]
+[ext_resource type="Texture2D" uid="uid://bn0ypxm3gn0k6" path="res://assets/sprites/items/Sprite-0008.png" id="2_0uwwl"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_8ykm5"]
 
 [sub_resource type="Resource" id="Resource_0loja"]
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_8ykm5")
 item_name = "Window to Another Dimension"
+icon = ExtResource("2_0uwwl")
 base_cost = SubResource("Resource_0loja")
 base_production = SubResource("Resource_xrs0c")
 store_index = 14

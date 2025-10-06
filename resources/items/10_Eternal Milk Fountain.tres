@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://bxfwq4w8g2fww"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://bxfwq4w8g2fww"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_dqqqo"]
+[ext_resource type="Texture2D" uid="uid://chb2a8b1hg57m" path="res://assets/sprites/items/Sprite-0004.png" id="2_8ccj5"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_hxpmx"]
 
 [sub_resource type="Resource" id="Resource_j2jfr"]
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_hxpmx")
 item_name = "Eternal Milk Fountain"
+icon = ExtResource("2_8ccj5")
 base_cost = SubResource("Resource_j2jfr")
 base_production = SubResource("Resource_mlv25")
 store_index = 10

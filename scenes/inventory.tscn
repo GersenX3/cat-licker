@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvubr2ujpl1sv"]
+
+[ext_resource type="Script" uid="uid://cmuk7aymj1dyi" path="res://scripts/store_container_intentory.gd" id="1_qw0r6"]
+
+[node name="Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+clip_contents = false
+custom_minimum_size = Vector2(352, 512)
+layout_mode = 0
+offset_right = 352.0
+offset_bottom = 512.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="StoreContainerIntentory" type="VBoxContainer" parent="ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("1_qw0r6")
+icon_spacing = 0.0
+icons_per_row = 5
+offset_position = Vector2(64, 160)

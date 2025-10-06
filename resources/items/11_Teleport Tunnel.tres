@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://dhia1kg7gdfcw"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://dhia1kg7gdfcw"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_e8o2w"]
+[ext_resource type="Texture2D" uid="uid://dybwqx1mpy837" path="res://assets/sprites/items/Sprite-0005.png" id="2_af55d"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_aic0t"]
 
 [sub_resource type="Resource" id="Resource_bjg73"]
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_aic0t")
 item_name = "Teleport Tunnel"
+icon = ExtResource("2_af55d")
 base_cost = SubResource("Resource_bjg73")
 base_production = SubResource("Resource_a82wo")
 store_index = 11

@@ -1,0 +1,227 @@
+{
+	"dialogos": {
+		"mil_caras": {
+			"1": [
+				"...Cuix tiquimati?...",
+				"...",
+				"Miau, Miau ... Miau",
+				"(Tu, aqui ... no)",
+				"Miau miau miau miau",
+				"(Cada alma tiene umbral)",
+				"Miau, Miau ... Miau",
+				"(Tu, aqui ... no)",
+				"Mauu, Mauu, Mauu ...",
+				"(Vete, vete, vete ...)"
+			],
+			"2": [
+				"Segundo diálogo del gato",
+				"Texto de ejemplo"
+			]
+		},
+		"puerta": {
+			"1": [
+				"[CERRADO]",
+			],
+		},
+		"short": {
+			"1": [
+				"Te traje un mango...",
+			],
+			"2": [
+				"Pero no he desayunado...",
+			],
+			"3": [
+				"Ese tenia medicina.",
+				"Voy por otro.",
+			],
+		},
+		"radio_silverio": {
+			"1": [
+				"...Tras noticias, encuentran por fin los cuerpos de los jóvenes...",
+				"Desaparecidos pertenecientes a la escuela primaria Benito Juárez.",
+				"Sus familiares siguen exigiendo justicia. Mientras tanto,",
+				"la policía hace todo lo que puede para encontrar a los culpables.",
+				"Esas son las últimas noticias del día...",
+				"Seguimos nuestro programa con un poco de música..."
+			]
+		},
+		"contexto": {
+			"1": [
+				"Prueba",
+			],
+			"2": [
+				"Un dibujo de 2 gatitos enamorados",
+			],
+			"3": [
+				"—No, papi, yo la voy a cuidar, pero no te la lleves…",
+				"—Tengo que ir a trabajar y ya tienes aquí a su mamá, perdón, hija.",
+				"...",
+				"...",
+				"—¿Dónde vamos a dejar a este pendejo?",
+				"—Sólo dijeron que se tenía que ver desde la entrada, así que en un lugar alto.",
+				"...",
+				"...",
+				"—Aquí está bien, voy a dejar esta chingadera de una vez…"
+			],
+			"4": [
+				"- Miau..."
+			],
+			"5": [
+				"- Miau?"
+			],
+			"6": [
+				"(Es tu cara)"
+			],
+			"7": [
+				"Meses despues..."
+			],
+			"8": [
+				"Oye mudo, estas seguro de dejarlos aqui?",
+				"...",
+				"Si tienes razon, es un lugar apartado y no es como que alguien escuche y vaya a regresar despues que pueda saltar mas alto o algo."
+			],
+			"9": [
+				"Oye mudo, estas seguro de dejarlos aqui?",
+			],
+			"9": [
+				"[Caroline parece estar leyendo las noticias... Pero ella no sabe leer.]",
+			],
+			"10": [
+				"[Un baul lleno de musica que Kira ama, tambien hay un par de discos de un 'Pepe pepe']",
+			],
+			"11": [
+				"[Son las primeras flores que Kira vio, en cuanto pudo las dibujo.]",
+			],
+			"12": [
+				"[Kira nos dibujo al lado de mi cama.]",
+			],
+			"13": [
+				"Bienvenido al PLAYROOM",
+				"En esta habitacion podras probar a los 3 personajes principales, CAROLINE, CHANEL Y KIRA",
+				"Para cambiar de personaje solo presiona las teclas 'Q' o 'E' y diviertete con cada uno.",
+				"(Sus habilidades se explicaran poco a poco en el resto del cuarto)"
+			],
+			"14": [
+				"No hay nada aqui cariño... Por eso hay una flecha, las flechas son para seguirlas.",
+			],
+		},
+		"muerte_mau": {
+			"1": [
+				"21 segundos antes en esa camioneta",
+			],
+		},
+		"mar": {
+			"1": [
+				"No me gusta la mayonesa."
+			],
+			"2": [
+				"No, no me gusta amor, es que da mucho asco. Oye esperate, frena, frena, FRENA!!!"
+			],
+			"3": [
+				"Es una troca..."
+			],
+			"4": [
+				"Hay que traerlo, es lo minimo, mataste a su amigo..."
+			],
+			"5": [
+				"..."
+			],
+			"6": [
+				"..."
+			],
+			"7": [
+				"Es un gatito... Estaba pensando en Jason, como el perro de mi abuelito..."
+			],
+			"8": [
+				"No tanto como CESAR"
+			],
+		},
+		"cesar": {
+			"1": [
+				"Como no te va a gustar no seas pendeja"
+			],
+			"2": [
+				"Ah, puta madre, tu eres alta deberias avisarme con tiempo, no a la hora que ya valio verga... Donde le pasara algo al carro..."
+			],
+			"3": [
+				"No me corrijas pendeja! Mejor fijate que puto animal se murio por tu culpa..."
+			],
+			"4": [
+				"Esa chingadera que..."
+			],
+			"5": [
+				"Yo no lo mate, fue tu pinche descuido"
+			],
+			"6": [
+				"Vamonos ya"
+			],
+			"7": [
+				"Bueno, como se va a llamar eso?"
+			],
+			"8": [
+				"Ja, Jason, pinche nombre pendejo para un animal..."
+			],
+			"9": [
+				"QUE DIJISTE PENDEJA!"
+			],
+		},
+		"caroline": {
+			"1": [
+				"Mira lo que aprendi con la mayonesa ..."
+			],
+			"2": [
+				"Ahora es mi instrumento."
+			],
+			"3": [
+				"He he, torre de mayonesa."
+			],
+			"4": [
+				"ALEJATE DE MIS MANGOS CHANEL!!!"
+			],
+			"5": [
+				"Me hablaban linduritas preciosas?"
+			],
+			"6": [
+				"He he he, Iban dos tontas en una moto...",
+				"Y se cayo mi mama"
+			],
+			"7": [
+				"HEHEHEHE, asi no era pero te salio mejor."
+			],
+			"8": [
+				"Algunas gatitas no nacen para la comedia, para eso estamos la leonas... Y esta leona necesita otro mango"
+			],
+		},
+		"kira": {
+			"1": [
+				"Mira mami!!!"
+			],
+			"2": [
+				"Si estas viendo mami?"
+			],
+			"3": [
+				"Ella es quien te dije, siempre canta... Y baila... Y canta... Y AHHH... Canta bien bonito","Chanel, quitate, no nos dejas VER!!!"
+			],
+			"4": [
+				"Chanel, quitate, no nos dejas VER!!!"
+			],
+			"5": [
+				"CHANEL, ESPERA!!!"
+			],
+			"6": [
+				"Caroline, me acaba de contar un chiste muy bueno.",
+				"Mira mira... Deja te lo cuento...",
+				"Ay... ya se me olvido",
+				"CARO, VEN!!!"
+			],
+			"7": [
+				"Si, como iba el chiste de la moto?"
+			],
+			"8": [
+				"Ya me acorde!, Ya me acorde!!",
+				"Iban 2 tontas en una moto y me cai...",
+				"Espera"
+			],
+		},
+	}
+}
