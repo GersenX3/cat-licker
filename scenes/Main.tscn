@@ -1256,6 +1256,10 @@ script = ExtResource("17_dgi5k")
 metadata/_edit_lock_ = true
 
 [node name="Inventory" parent="UI" instance=ExtResource("19_gqmmt")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
 
 [node name="Store" parent="UI" instance=ExtResource("18_dp3eg")]
 z_index = 5

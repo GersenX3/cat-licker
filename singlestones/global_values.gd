@@ -1,6 +1,6 @@
 extends Node
 
-var hair_balls_total = Big_Number.new(0,0)
+var hair_balls_total = Big_Number.new(1,64)
 var hairs_balls_per_second = Big_Number.new(0,0)
 var click_value = Big_Number.new(1,0)
 
