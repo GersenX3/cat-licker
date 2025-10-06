@@ -1,6 +1,6 @@
 extends Node
 
-var hair_balls_total = Big_Number.new(1,64)
+var hair_balls_total = Big_Number.new(0,0)
 var hairs_balls_per_second = Big_Number.new(0,0)
 var click_value = Big_Number.new(1,0)
 
@@ -12,10 +12,11 @@ func _ready() -> void:
 	
 	# Desactivar clip en todos los RichTextLabel
 	disable_clip_on_all_rich_labels()
+	MusicManager.play_song("res://assets/music/Intro.wav", 0, 0)
 
 func _process(_delta: float) -> void:
 	# Multiplica mantisa por delta, mantiene exponente
-	var increment_mantisa = hairs_balls_per_second.mantisa * _delta * 128 * 128 * 128
+	var increment_mantisa = hairs_balls_per_second.mantisa * _delta# * 128 * 128 * 128
 	var increment = Big_Number.new(increment_mantisa, hairs_balls_per_second.exponential)
 	
 	# Suma al total

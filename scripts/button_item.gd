@@ -202,7 +202,7 @@ func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float =
 			# Reparentar el icono al VBoxContainer
 			icon_sprite.get_parent().remove_child(icon_sprite)
 			inventory_container.call("add_icon", icon_sprite)
-	).set_delay(duration)
+	).set_delay(0)
 
 func shake_button() -> void:
 	var tween = create_tween()

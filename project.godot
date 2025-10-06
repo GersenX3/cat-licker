@@ -17,13 +17,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+MusicManager="*res://singlestones/MusicManager.gd"
 GlobalValues="*res://singlestones/global_values.gd"
 Store="*res://singlestones/store.gd"
 EventBusPlugin="*res://addons/event_bus_plugin/EventBusPlugin.gd"
 EventBus="*res://addons/event_bus_plugin/EventBus.gd"
 ShakerPlugin="*res://addons/shaker/src/shaker_plugin.gd"
 Shaker="*res://addons/shaker/src/Shaker.gd"
-MusicManager="*res://singlestones/MusicManager.gd"
 DialogSystem="*res://singlestones/DialogSystem.gd"
 
 [display]

@@ -4,8 +4,9 @@ extends VBoxContainer
 @export var icon_spacing: float = 10.0
 @export var icons_per_row: int = 4
 @export var icon_size: float = 64.0
-@export var offset_x: float = 10.0  # Offset horizontal
-@export var offset_y: float = 10.0  # Offset vertical
+@export var offset_x: float = 10.0
+@export var offset_y: float = 10.0
+@export var enable_rotation: bool = true  # Toggle para activar/desactivar rotación
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(352, 100)
@@ -20,8 +21,19 @@ func add_icon(icon_sprite: Sprite2D) -> void:
 	organize_icons()
 	update_container_size()
 	
+	# Aplicar animación de rotación al icono
+	if enable_rotation:
+		animate_icon_rotation(icon_sprite)
+	
 	print("Icon added! Total icons: ", collected_icons.size())
 	debug_container_properties()
+
+func animate_icon_rotation(icon_sprite: Sprite2D) -> void:
+	var rotation_tween = create_tween()
+	rotation_tween.set_loops()
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", -15, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 15, 0.4).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 0, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 
 func organize_icons() -> void:
 	for i in range(collected_icons.size()):
@@ -29,7 +41,6 @@ func organize_icons() -> void:
 			var row: int = int(i / float(icons_per_row))
 			var col = i % icons_per_row
 			
-			# Aplicar offset personalizable
 			var x_pos = offset_x + (col * (icon_size + icon_spacing))
 			var y_pos = offset_y + (row * (icon_size + icon_spacing))
 			
