@@ -7,17 +7,16 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-clip_contents = false
 custom_minimum_size = Vector2(352, 512)
 layout_mode = 0
 offset_top = 136.0
 offset_right = 352.0
 offset_bottom = 648.0
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
 
 [node name="StoreContainerIntentory" type="VBoxContainer" parent="ScrollContainer"]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 script = ExtResource("1_qw0r6")
 icon_spacing = 0.0
