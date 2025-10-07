@@ -29,12 +29,26 @@ func add_icon(icon_sprite: Sprite2D) -> void:
 	debug_container_properties()
 
 func animate_icon_rotation(icon_sprite: Sprite2D) -> void:
+	# Variable que maneja el tiempo total de la animación (en segundos).
+	# La animación original dura 0.2 + 0.4 + 0.2 = 0.8 segundos.
+	const ANIMATION_TIME = 3
+	
+	# Las proporciones de los pasos son: 0.2/0.8 = 0.25, 0.4/0.8 = 0.5, 0.2/0.8 = 0.25
+	const STEP_1_DURATION = ANIMATION_TIME * 0.25  # 25% del tiempo total
+	const STEP_2_DURATION = ANIMATION_TIME * 0.5   # 50% del tiempo total
+	const STEP_3_DURATION = ANIMATION_TIME * 0.25  # 25% del tiempo total
+	
 	var rotation_tween = create_tween()
 	rotation_tween.set_loops()
-	rotation_tween.tween_property(icon_sprite, "rotation_degrees", -15, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 15, 0.4).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 0, 0.2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-
+	
+	# Paso 1: Rotar a -15 grados
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", -15, STEP_1_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	# Paso 2: Rotar a +15 grados
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 15, STEP_2_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	
+	# Paso 3: Volver a 0 grados (rotación original)
+	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 0, STEP_3_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 func organize_icons() -> void:
 	for i in range(collected_icons.size()):
 		if collected_icons[i] and is_instance_valid(collected_icons[i]):

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://e11erxgwpd1c"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://e11erxgwpd1c"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_xcggb"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_0v872"]
+[ext_resource type="Texture2D" uid="uid://bi00ecnkqgse0" path="res://assets/sprites/items/a3.png" id="2_gsuvg"]
 
 [sub_resource type="Resource" id="Resource_1v6qk"]
 script = ExtResource("1_xcggb")
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_0v872")
 item_name = "Feline Cloner"
+icon = ExtResource("2_gsuvg")
 base_cost = SubResource("Resource_1v6qk")
 base_production = SubResource("Resource_ksmap")
 store_index = 17

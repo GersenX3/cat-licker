@@ -23,19 +23,19 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
 shader = ExtResource("1_0ld40")
-shader_parameter/resolution = Vector2(480, 270)
+shader_parameter/resolution = Vector2(480, 452)
 shader_parameter/scan_line_amount = 1.0
-shader_parameter/warp_amount = 0.2000004845000003
+shader_parameter/warp_amount = 0.30000048924999945
 shader_parameter/noise_amount = 0.03
 shader_parameter/interference_amount = 0.2
 shader_parameter/grille_amount = 0.0
 shader_parameter/grille_size = 1.0
-shader_parameter/vignette_amount = 0.418000019855
-shader_parameter/vignette_intensity = 0.3810000180975
+shader_parameter/vignette_amount = 0.3
+shader_parameter/vignette_intensity = 1.0
 shader_parameter/aberation_amount = 0.0
-shader_parameter/roll_line_amount = 0.59600002831
-shader_parameter/roll_speed = -1.5099996917249996
-shader_parameter/scan_line_strength = -8.0
+shader_parameter/roll_line_amount = 0.0
+shader_parameter/roll_speed = 3.7999999946691787e-07
+shader_parameter/scan_line_strength = -9.999994775000005
 shader_parameter/pixel_strength = -2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u5g"]

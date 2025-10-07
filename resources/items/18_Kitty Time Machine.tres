@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=5 format=3 uid="uid://dpmfr3ip7oypj"]
+[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://dpmfr3ip7oypj"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_fkbwk"]
+[ext_resource type="Texture2D" uid="uid://csa25wc01dqgt" path="res://assets/sprites/items/a4.png" id="2_aj282"]
 [ext_resource type="Script" uid="uid://c5ai1c8dvjg6w" path="res://scripts/clases/Item_store.gd" id="2_yx6kn"]
 
 [sub_resource type="Resource" id="Resource_augu2"]
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://cux2ph57gpruq"
 [resource]
 script = ExtResource("2_yx6kn")
 item_name = "Kitty Time Machine"
+icon = ExtResource("2_aj282")
 base_cost = SubResource("Resource_augu2")
 base_production = SubResource("Resource_ygd8o")
 store_index = 18
