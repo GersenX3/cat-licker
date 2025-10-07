@@ -1223,6 +1223,7 @@ tile_set = SubResource("TileSet_1iba3")
 metadata/_edit_lock_ = true
 
 [node name="Kira" type="AnimatedSprite2D" parent="UI/Background"]
+visible = false
 z_index = 5
 position = Vector2(1056, 80)
 scale = Vector2(4, 4)
@@ -1232,9 +1233,11 @@ script = ExtResource("12_pm3ni")
 texto = "I'll sell you MONEY"
 anim_name = "compra"
 event_name = "buy"
+sound_path = "res://assets/sfx/MA Coins Drop 01.wav"
 metadata/_edit_lock_ = true
 
 [node name="Chanel" type="AnimatedSprite2D" parent="UI/Background"]
+visible = false
 z_index = 5
 position = Vector2(96, 64)
 scale = Vector2(4, 4)
@@ -1244,6 +1247,7 @@ script = ExtResource("12_pm3ni")
 texto = "The best way to organize things is to put everything in a straight line without any order."
 anim_name = "llegada"
 event_name = "llegada"
+sound_path = "res://assets/sfx/MA Coins Rattle 01.wav"
 metadata/_edit_lock_ = true
 
 [node name="Labels" type="Node2D" parent="UI"]
