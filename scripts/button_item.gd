@@ -91,7 +91,7 @@ func setup_scroll_system() -> void:
 func _on_pressed() -> void:
 	#Create animation with icon
 	MusicManager.play_sound("res://assets/sfx/bounce.wav", 2, true, 1, self.global_position)
-	
+	EventBus.emit("buy", {"item": item_name, "quantity": quantity})
 	# Solo permitir compra si está desbloqueado
 	if current_state != ButtonState.UNLOCKED:
 		return
@@ -202,6 +202,7 @@ func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float =
 			# Reparentar el icono al VBoxContainer
 			icon_sprite.get_parent().remove_child(icon_sprite)
 			inventory_container.call("add_icon", icon_sprite)
+			EventBus.emit("llegada", {"item": "", "quantity": ""})
 	).set_delay(0)
 
 func shake_button() -> void:
