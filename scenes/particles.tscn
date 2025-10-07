@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1ymprivc87k"]
+[gd_scene load_steps=3 format=3 uid="uid://b1ymprivc87k"]
 
 [ext_resource type="Script" uid="uid://df8uwf4rrevjh" path="res://scripts/particles.gd" id="1_xmlf0"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xmlf0"]
+
 [node name="Particles" type="CPUParticles2D"]
+z_index = 1
+z_as_relative = false
+texture = SubResource("PlaceholderTexture2D_xmlf0")
+lifetime = 20.0
+emission_shape = 3
+emission_rect_extents = Vector2(176, 1)
 script = ExtResource("1_xmlf0")

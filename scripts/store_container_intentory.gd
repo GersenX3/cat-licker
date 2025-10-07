@@ -6,7 +6,8 @@ extends VBoxContainer
 @export var icon_size: float = 64.0
 @export var offset_x: float = 10.0
 @export var offset_y: float = 10.0
-@export var enable_rotation: bool = true  # Toggle para activar/desactivar rotación
+@export var enable_rotation: bool = true
+@export var particle_system: CPUParticles2D  # Referencia al sistema de partículas
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(352, 100)
@@ -21,34 +22,29 @@ func add_icon(icon_sprite: Sprite2D) -> void:
 	organize_icons()
 	update_container_size()
 	
-	# Aplicar animación de rotación al icono
 	if enable_rotation:
 		animate_icon_rotation(icon_sprite)
+	
+	# Notificar al sistema de partículas
+	if particle_system and particle_system.has_method("on_icon_added"):
+		particle_system.on_icon_added(icon_sprite)
 	
 	print("Icon added! Total icons: ", collected_icons.size())
 	debug_container_properties()
 
 func animate_icon_rotation(icon_sprite: Sprite2D) -> void:
-	# Variable que maneja el tiempo total de la animación (en segundos).
-	# La animación original dura 0.2 + 0.4 + 0.2 = 0.8 segundos.
 	const ANIMATION_TIME = 3
-	
-	# Las proporciones de los pasos son: 0.2/0.8 = 0.25, 0.4/0.8 = 0.5, 0.2/0.8 = 0.25
-	const STEP_1_DURATION = ANIMATION_TIME * 0.25  # 25% del tiempo total
-	const STEP_2_DURATION = ANIMATION_TIME * 0.5   # 50% del tiempo total
-	const STEP_3_DURATION = ANIMATION_TIME * 0.25  # 25% del tiempo total
+	const STEP_1_DURATION = ANIMATION_TIME * 0.25
+	const STEP_2_DURATION = ANIMATION_TIME * 0.5
+	const STEP_3_DURATION = ANIMATION_TIME * 0.25
 	
 	var rotation_tween = create_tween()
 	rotation_tween.set_loops()
 	
-	# Paso 1: Rotar a -15 grados
 	rotation_tween.tween_property(icon_sprite, "rotation_degrees", -15, STEP_1_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	
-	# Paso 2: Rotar a +15 grados
 	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 15, STEP_2_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	
-	# Paso 3: Volver a 0 grados (rotación original)
 	rotation_tween.tween_property(icon_sprite, "rotation_degrees", 0, STEP_3_DURATION).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+
 func organize_icons() -> void:
 	for i in range(collected_icons.size()):
 		if collected_icons[i] and is_instance_valid(collected_icons[i]):

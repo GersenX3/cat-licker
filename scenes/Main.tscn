@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=4 uid="uid://bqsfw81u8fnnp"]
+[gd_scene load_steps=74 format=4 uid="uid://bqsfw81u8fnnp"]
 
 [ext_resource type="Shader" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
@@ -24,9 +24,10 @@
 [ext_resource type="Script" uid="uid://fo3o0smfhs5y" path="res://scripts/label_total.gd" id="16_5q0nq"]
 [ext_resource type="Script" uid="uid://c8whnunyh5ndy" path="res://scripts/button_licker.gd" id="17_dgi5k"]
 [ext_resource type="PackedScene" uid="uid://d15bowe5yf074" path="res://scenes/store.tscn" id="18_dp3eg"]
-[ext_resource type="PackedScene" uid="uid://bvubr2ujpl1sv" path="res://scenes/inventory.tscn" id="19_gqmmt"]
 [ext_resource type="Script" uid="uid://dtv531y5fqw5l" path="res://scripts/caro.gd" id="21_2wyq8"]
 [ext_resource type="Texture2D" uid="uid://6b4rf06yrmn1" path="res://assets/sprites/personajes/caro_licking.png" id="21_vxglm"]
+[ext_resource type="PackedScene" uid="uid://b1ymprivc87k" path="res://scenes/particles.tscn" id="26_2f3dj"]
+[ext_resource type="Script" uid="uid://cmuk7aymj1dyi" path="res://scripts/store_container_intentory.gd" id="27_2f3dj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
 shader = ExtResource("1_0ld40")
@@ -1189,6 +1190,10 @@ metadata/_edit_lock_ = true
 [node name="UI" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
+[node name="Particles" parent="UI" node_paths=PackedStringArray("inventory_container") instance=ExtResource("26_2f3dj")]
+position = Vector2(576, -8)
+inventory_container = NodePath("../Inventory/ScrollContainer/StoreContainerIntentory")
+
 [node name="Background" type="Node2D" parent="UI"]
 metadata/_edit_lock_ = true
 
@@ -1352,6 +1357,7 @@ texture = ExtResource("12_yq6so")
 metadata/_edit_lock_ = true
 
 [node name="Caro" type="AnimatedSprite2D" parent="UI/HUB"]
+z_index = 2
 position = Vector2(576, 336)
 scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_qmy6f")
@@ -1440,12 +1446,32 @@ offset_bottom = 456.0
 script = ExtResource("17_dgi5k")
 metadata/_edit_lock_ = true
 
-[node name="Inventory" parent="UI" instance=ExtResource("19_gqmmt")]
+[node name="Inventory" type="Control" parent="UI"]
+layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
 metadata/_edit_lock_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Inventory"]
+custom_minimum_size = Vector2(352, 512)
+layout_mode = 0
+offset_top = 136.0
+offset_right = 352.0
+offset_bottom = 648.0
+horizontal_scroll_mode = 0
+
+[node name="StoreContainerIntentory" type="VBoxContainer" parent="UI/Inventory/ScrollContainer" node_paths=PackedStringArray("particle_system")]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+script = ExtResource("27_2f3dj")
+icon_spacing = 0.0
+icons_per_row = 5
+offset_x = 64.0
+offset_y = 30.0
+particle_system = NodePath("../../../Particles")
 
 [node name="Store" parent="UI" instance=ExtResource("18_dp3eg")]
 z_index = 5
