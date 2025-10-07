@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=4 uid="uid://bqsfw81u8fnnp"]
+[gd_scene load_steps=69 format=4 uid="uid://bqsfw81u8fnnp"]
 
 [ext_resource type="Shader" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://c8whnunyh5ndy" path="res://scripts/button_licker.gd" id="17_dgi5k"]
 [ext_resource type="PackedScene" uid="uid://d15bowe5yf074" path="res://scenes/store.tscn" id="18_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://bvubr2ujpl1sv" path="res://scenes/inventory.tscn" id="19_gqmmt"]
+[ext_resource type="Script" uid="uid://dtv531y5fqw5l" path="res://scripts/caro.gd" id="21_2wyq8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
 shader = ExtResource("1_0ld40")
@@ -1109,9 +1110,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3p2gp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cvmbd")
 }],
 "loop": true,
 "name": &"durmiendo",
@@ -1143,7 +1141,10 @@ animations = [{
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwfav")
+}],
 "loop": true,
 "name": &"lamiendo",
 "speed": 5.0
@@ -1335,9 +1336,10 @@ metadata/_edit_lock_ = true
 position = Vector2(576, 336)
 scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_qmy6f")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.99451554
+animation = &"lamiendo"
+autoplay = "durmiendo"
+script = ExtResource("21_2wyq8")
+event_names = Array[String](["despertando", "!lamiendo", "sacudirse"])
 metadata/_edit_lock_ = true
 
 [node name="total" type="RichTextLabel" parent="UI/HUB"]
