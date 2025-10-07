@@ -7,7 +7,7 @@ extends VBoxContainer
 @export var offset_x: float = 10.0
 @export var offset_y: float = 10.0
 @export var enable_rotation: bool = true
-@export var particle_system: CPUParticles2D  # Referencia al sistema de partículas
+@export var particle_system: Node2D  # Referencia al sistema de partículas
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(352, 100)
