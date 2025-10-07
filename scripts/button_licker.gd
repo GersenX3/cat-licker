@@ -10,15 +10,15 @@ func _ready() -> void:
 	flat = true
 	modulate = Color(1, 1, 1, 0) # Invisible
 
+
 func _process(_delta: float) -> void:
 	# Reinicia combo si pasa demasiado tiempo
 	if Time.get_ticks_msec() / 1000.0 - last_click_time > combo_window:
 		click_count = 0
 
 func _on_pressed() -> void:
-	# Emitir un solo evento con el nombre de la animación que debe ejecutarse
-	EventBus.emit("despertando", "despertando")  # ← Cambia el string por la anim deseada
-	EventBus.emit("lamiendo", "lamiendo")
+	EventBus.emit("button_click", "click")
+
 	var now = Time.get_ticks_msec() / 1000.0
 	if now - last_click_time > combo_window:
 		click_count = 0
@@ -40,13 +40,13 @@ func _on_pressed() -> void:
 	# Texto flotante
 	spawn_floating_text("+" + combo_bonus.to_readable_string(), get_local_mouse_position())
 
-func spawn_floating_text(text: String, pos: Vector2) -> void:
+func spawn_floating_text(_text: String, pos: Vector2) -> void:
 	var main_node = get_node("/root/Main")
 	if not main_node:
 		return
 
 	var label = Label.new()
-	label.text = text
+	label.text = _text
 	label.global_position = global_position + pos
 	label.z_index = 10
 	label.add_theme_font_size_override("font_size", 32)

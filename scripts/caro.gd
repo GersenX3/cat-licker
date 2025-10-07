@@ -1,25 +1,36 @@
 extends AnimatedSprite2D
 
-@export var event_names: Array[String] = ["despertar", "!lamer", "sacudirse"]
+@export var idle_anim: String = "idle"
+@export var wake_anim: String = "despertando"
+@export var lick_anim: String = "lamiendo"
+
+var has_woken_up := false
+var is_playing_click_anim := false
 
 func _ready() -> void:
-	for raw_name in event_names:
-		var one_shot := false
-		var name := raw_name
+	# Animación automática inicial
+	if sprite_frames and sprite_frames.has_animation(animation):
+		play(animation)
 
-		# Si empieza con "!", se suscribe una sola vez
-		if raw_name.begins_with("!"):
-			name = raw_name.substr(1, raw_name.length() - 1)
-			one_shot = true
+	# Escuchar eventos del botón
+	EventBus.subscribe("button_click", _on_button_clicked, false)
 
-		EventBus.subscribe(name, func(anim_name: String):
-			_on_event_triggered(anim_name)
-			if one_shot:
-				EventBus.unsubscribe(name, _on_event_triggered)
-		, true)
+	# Cuando termina cualquier animación
+	connect("animation_finished", Callable(self, "_on_animation_finished"))
 
-func _on_event_triggered(anim_name: String) -> void:
-	if sprite_frames and sprite_frames.has_animation(anim_name):
-		play(anim_name)
+
+func _on_button_clicked(_anim_name: String) -> void:
+	if not has_woken_up:
+		has_woken_up = true
+		is_playing_click_anim = true
+		play(wake_anim)
 	else:
-		push_warning("Animación '%s' no encontrada en %s" % [anim_name, name])
+		is_playing_click_anim = true
+		play(lick_anim)
+
+
+func _on_animation_finished() -> void:
+	# Si la animación terminó y no se está clickeando, vuelve a idle
+	if is_playing_click_anim:
+		is_playing_click_anim = false
+		play(idle_anim)

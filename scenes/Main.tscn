@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=4 uid="uid://bqsfw81u8fnnp"]
+[gd_scene load_steps=73 format=4 uid="uid://bqsfw81u8fnnp"]
 
 [ext_resource type="Shader" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://d15bowe5yf074" path="res://scenes/store.tscn" id="18_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://bvubr2ujpl1sv" path="res://scenes/inventory.tscn" id="19_gqmmt"]
 [ext_resource type="Script" uid="uid://dtv531y5fqw5l" path="res://scripts/caro.gd" id="21_2wyq8"]
+[ext_resource type="Texture2D" uid="uid://6b4rf06yrmn1" path="res://assets/sprites/personajes/caro_licking.png" id="21_vxglm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
 shader = ExtResource("1_0ld40")
@@ -1073,6 +1074,18 @@ region = Rect2(160, 0, 32, 32)
 atlas = ExtResource("14_tel4y")
 region = Rect2(192, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8jky"]
+atlas = ExtResource("21_vxglm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmb1v"]
+atlas = ExtResource("21_vxglm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuf3a"]
+atlas = ExtResource("21_vxglm")
+region = Rect2(64, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_qmy6f"]
 animations = [{
 "frames": [{
@@ -1143,11 +1156,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mwfav")
+"texture": SubResource("AtlasTexture_j8jky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmb1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuf3a")
 }],
-"loop": true,
+"loop": false,
 "name": &"lamiendo",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [node name="Main" type="Control"]
@@ -1339,7 +1358,6 @@ sprite_frames = SubResource("SpriteFrames_qmy6f")
 animation = &"lamiendo"
 autoplay = "durmiendo"
 script = ExtResource("21_2wyq8")
-event_names = Array[String](["despertando", "!lamiendo", "sacudirse"])
 metadata/_edit_lock_ = true
 
 [node name="total" type="RichTextLabel" parent="UI/HUB"]
