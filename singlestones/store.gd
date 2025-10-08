@@ -5,6 +5,30 @@ signal item_purchased(item: StoreItem)
 signal balance_changed(new_balance: float)
 signal production_changed(new_bps: float)
 
+# Rutas de los items
+const ITEM_PATHS = [
+	"res://resources/items/0_Rough Tongue.tres",
+	"res://resources/items/1_Magic Brush.tres",
+	"res://resources/items/2_Little Yarn Ball.tres",
+	"res://resources/items/3_Hypnotic Scratching Post.tres",
+	"res://resources/items/4_Quantum Catnip.tres",
+	"res://resources/items/5_Perpetual Laser.tres",
+	"res://resources/items/6_Dimensional Cardboard Box.tres",
+	"res://resources/items/7_Cosmic Feather.tres",
+	"res://resources/items/8_Mechanical Mouse.tres",
+	"res://resources/items/9_Infinite Scratching Tower.tres",
+	"res://resources/items/10_Eternal Milk Fountain.tres",
+	"res://resources/items/11_Teleport Tunnel.tres",
+	"res://resources/items/12_Solar Hammock.tres",
+	"res://resources/items/13_Petting Robot.tres",
+	"res://resources/items/14_Window to Another Dimension.tres",
+	"res://resources/items/15_Generator Collar.tres",
+	"res://resources/items/16_Self-Cleaning Magic Litter.tres",
+	"res://resources/items/17_Feline Cloner.tres",
+	"res://resources/items/18_Kitty Time Machine.tres",
+	"res://resources/items/19_MANGO.tres"
+]
+
 # Catálogo de items (configura en el Inspector o por código)
 var store_items: Array[StoreItem] = []
 var reference_item_button = preload("res://scenes/item.tscn")
@@ -158,6 +182,7 @@ func save_data() -> Dictionary:
 	}
 
 # Cargar progreso de la tienda
+# Cargar progreso de la tienda
 func load_data(data: Dictionary) -> void:
 	if data.has("items"):
 		var items_data = data["items"]
@@ -165,6 +190,21 @@ func load_data(data: Dictionary) -> void:
 			store_items[i].from_dict(items_data[i])
 	
 	_update_total_production()
+	
+	# ✅ ACTUALIZAR BOTONES CON LAS NUEVAS CANTIDADES
+	update_button_quantities()
+
+# ✅ NUEVA FUNCIÓN: Actualizar cantidades en los botones
+func update_button_quantities() -> void:
+	if not v_box_container:
+		return
+	
+	for i in range(v_box_container.get_child_count()):
+		var button = v_box_container.get_child(i)
+		if button and button.has_method("update_labels") and i < store_items.size():
+			button.quantity = store_items[i].quantity
+			button.call("update_labels")
+			print("🔄 Updated button ", button.item_name, " quantity: ", button.quantity)
 
 # Crear botones de items
 # Crear botones de items
@@ -197,25 +237,16 @@ func items_creation():
 		index += 1
 
 func _load_store_items() -> void:
-	var dir = DirAccess.open("res://resources/items/")
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		
-		while file_name != "":
-			if file_name.ends_with(".tres"):
-				var item = load("res://resources/items/" + file_name) as StoreItem
-				if item:
-					# ✅ OPCIÓN 1: Duplicar el recurso para no modificar el original
-					var item_instance = item.duplicate()
-					item_instance.quantity = 0  # Resetear cantidad
-					store_items.append(item_instance)
-					
-					# ✅ OPCIÓN 2: Solo resetear (comentar opción 1 si usas esta)
-					# item.quantity = 0
-					# store_items.append(item)
-			file_name = dir.get_next()
-		
-		dir.list_dir_end()
-	else:
-		push_error("No se pudo abrir la carpeta de items")
+	print("🔄 Loading items...")
+	
+	for item_path in ITEM_PATHS:
+		var item = load(item_path) as StoreItem
+		if item:
+			var item_instance = item.duplicate()
+			item_instance.quantity = 0
+			store_items.append(item_instance)
+			print("✅ Loaded: ", item.item_name)
+		else:
+			push_error("❌ Failed to load: " + item_path)
+	
+	print("📦 Total items loaded: ", store_items.size())

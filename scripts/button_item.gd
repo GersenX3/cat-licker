@@ -44,6 +44,12 @@ var has_been_unlocked: bool = false  # Si ya alcanzó el estado UNLOCKED alguna 
 func _ready() -> void:
 	custom_minimum_size = Vector2(344, 64)
 	
+	# ✅ SINCRONIZAR CANTIDAD CON STORE
+	if Store and Store.store_items.size() > store_index:
+		var store_item = Store.store_items[store_index]
+		quantity = store_item.quantity
+		print("🔄 Synced quantity for ", item_name, ": ", quantity)
+	
 	# Configurar sistema de scroll
 	setup_scroll_system()
 	

@@ -83,3 +83,67 @@ func debug_container_properties() -> void:
 		print("Vertical Scroll: ", parent.scroll_vertical)
 		print("Vertical Scroll Max: ", parent.get_v_scroll_bar().max_value if parent.get_v_scroll_bar() else "N/A")
 	print("==========================================\n")
+
+# ====================================================================
+# 💾 SISTEMA DE GUARDADO DEL INVENTARIO
+# ====================================================================
+
+# ✅ NUEVA FUNCIÓN: Obtener datos para guardar
+func get_save_data() -> Array:
+	var save_array = []
+	
+	for icon in collected_icons:
+		if is_instance_valid(icon) and icon.texture:
+			save_array.append({
+				"texture_path": icon.texture.resource_path,
+				"position": {
+					"x": icon.position.x,
+					"y": icon.position.y
+				},
+				"scale": {
+					"x": icon.scale.x,
+					"y": icon.scale.y
+				}
+			})
+	
+	print("💾 Saving ", save_array.size(), " icons from inventory")
+	return save_array
+
+# ✅ NUEVA FUNCIÓN: Cargar datos guardados
+func load_save_data(save_array: Array) -> void:
+	print("💾 Loading inventory with ", save_array.size(), " icons")
+	
+	# Limpiar iconos existentes
+	for icon in collected_icons:
+		if is_instance_valid(icon):
+			icon.queue_free()
+	collected_icons.clear()
+	
+	# Recrear iconos desde los datos guardados
+	for icon_data in save_array:
+		if icon_data.has("texture_path"):
+			var texture = load(icon_data["texture_path"]) as Texture2D
+			if texture:
+				var icon_sprite = Sprite2D.new()
+				icon_sprite.texture = texture
+				icon_sprite.z_index = 9
+				
+				# Restaurar propiedades
+				if icon_data.has("position"):
+					icon_sprite.position = Vector2(icon_data["position"]["x"], icon_data["position"]["y"])
+				
+				if icon_data.has("scale"):
+					icon_sprite.scale = Vector2(icon_data["scale"]["x"], icon_data["scale"]["y"])
+				
+				collected_icons.append(icon_sprite)
+				add_child(icon_sprite)
+				
+				# Aplicar animación de rotación
+				if enable_rotation:
+					animate_icon_rotation(icon_sprite)
+	
+	# Reorganizar y actualizar tamaño
+	organize_icons()
+	update_container_size()
+	
+	print("✅ Inventory loaded successfully with ", collected_icons.size(), " icons")
