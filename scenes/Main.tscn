@@ -1444,6 +1444,7 @@ offset_top = 240.0
 offset_right = 656.0
 offset_bottom = 456.0
 script = ExtResource("17_dgi5k")
+max_combo = 3
 metadata/_edit_lock_ = true
 
 [node name="Inventory" type="Control" parent="UI"]

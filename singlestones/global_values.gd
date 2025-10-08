@@ -5,6 +5,9 @@ var hairs_balls_per_second = Big_Number.new(0,0)
 var click_value = Big_Number.new(1,0)
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		   # Espera interacción del usuario
+		await get_tree().create_timer(0.1).timeout
 	print("=== GLOBAL VALUES INITIALIZED ===")
 	print("hair_balls_total: ", hair_balls_total.to_readable_string())
 	print("hairs_balls_per_second: ", hairs_balls_per_second.to_readable_string())
