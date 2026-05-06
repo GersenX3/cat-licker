@@ -81,6 +81,12 @@ func save_game() -> bool:
 	if inventory_container and inventory_container.has_method("get_save_data"):
 		inventory_data = inventory_container.call("get_save_data")
 	
+	# ✅ NUEVO: Obtener datos de partículas
+	var particle_system = get_node_or_null("/root/Main/UI/Particles")
+	var particles_data = []
+	if particle_system and particle_system.has_method("get_save_data"):
+		particles_data = particle_system.call("get_save_data")
+	
 	var save_data = {
 		"version": "1.0",
 		"timestamp": Time.get_unix_time_from_system(),
@@ -97,7 +103,8 @@ func save_game() -> bool:
 			"exponential": click_value.exponential
 		},
 		"store_data": Store.save_data() if Store else {},
-		"inventory_data": inventory_data  # ✅ NUEVO: Guardar inventario
+		"inventory_data": inventory_data,
+		"particles_data": particles_data  # ✅ NUEVO: Guardar partículas
 	}
 	
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
@@ -109,6 +116,7 @@ func save_game() -> bool:
 		print("   Hair balls: ", hair_balls_total.to_readable_string())
 		print("   Per second: ", hairs_balls_per_second.to_readable_string())
 		print("   Inventory items: ", inventory_data.size())
+		print("   Particle systems: ", particles_data.size())
 		print("💾 ==================================\n")
 		return true
 	else:
@@ -158,10 +166,13 @@ func load_game() -> bool:
 	if save_data.has("store_data") and Store:
 		Store.load_data(save_data["store_data"])
 	
-	# ✅ NUEVO: Cargar inventario (esperar a que el nodo exista)
+	# Cargar inventario (esperar a que el nodo esté listo)
 	if save_data.has("inventory_data"):
-		# Usar call_deferred para asegurar que el nodo esté listo
 		call_deferred("_load_inventory_deferred", save_data["inventory_data"])
+	
+	# ✅ NUEVO: Cargar partículas
+	if save_data.has("particles_data"):
+		call_deferred("_load_particles_deferred", save_data["particles_data"])
 	
 	print("✅ Game loaded successfully")
 	print("   Hair balls: ", hair_balls_total.to_readable_string())
@@ -179,6 +190,12 @@ func _load_inventory_deferred(inventory_data: Array) -> void:
 	if inventory_container and inventory_container.has_method("load_save_data"):
 		inventory_container.call("load_save_data", inventory_data)
 		print("✅ Inventory loaded: ", inventory_data.size(), " items")
+
+func _load_particles_deferred(particles_data: Array) -> void:
+	var particle_system = get_node_or_null("/root/Main/UI/Particles")
+	if particle_system and particle_system.has_method("load_save_data"):
+		particle_system.call("load_save_data", particles_data)
+		print("✅ Particle systems loaded: ", particles_data.size(), " systems")
 
 # Guardar manualmente (para llamar desde UI o antes de cerrar)
 func manual_save() -> void:
