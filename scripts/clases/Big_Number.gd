@@ -42,6 +42,13 @@ static func from_float(value: float) -> Big_Number:
 # Multiplicación
 func multiply(other: Big_Number) -> Big_Number:
 	return Big_Number.new(mantisa * other.mantisa, exponential + other.exponential)
+	
+# División
+func divide(other: Big_Number) -> Big_Number:
+	if other.mantisa == 0.0:
+		push_error("Big_Number: división entre cero")
+		return Big_Number.new(0.0, 0)
+	return Big_Number.new(mantisa / other.mantisa, exponential - other.exponential)
 
 # Suma
 func add_another_big(other: Big_Number) -> Big_Number:

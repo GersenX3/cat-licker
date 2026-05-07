@@ -4,10 +4,16 @@ extends Control
 @onready var hub: TextureButton = $HBoxContainer/Hub
 @onready var store: TextureButton = $HBoxContainer/Store
 @onready var camera_2d: Camera2D = $".."
+@onready var chan: AnimatedSprite2D = $HBoxContainer/chan
+@onready var caro: AnimatedSprite2D = $HBoxContainer/caro
+@onready var kira: AnimatedSprite2D = $HBoxContainer/kira
 
 var origin: Vector2
 
 func _ready() -> void:
+	EventBus.subscribe("pop_up_chanel", _lanzar_chanel, false)
+	EventBus.subscribe("pop_up_caroline", _lanzar_caroline, false)
+	EventBus.subscribe("pop_up_kira", _lanzar_kira, false)
 	origin = camera_2d.position
 
 func _move_camera(target: Vector2) -> void:
@@ -29,3 +35,27 @@ func _on_hub_pressed() -> void:
 func _on_store_pressed() -> void:
 	_move_camera(origin + Vector2(384, 0))
 	MusicManager.play_sound("res://assets/sfx/pogo.wav", 0.3, false, 1 + randf_range(0,0.3))
+
+func _lanzar_chanel(_arg) -> void:
+	if chan.visible:
+		return
+	chan.visible = true
+	MusicManager.play_sound("res://assets/sfx/Voz.wav", 0.2, false, 1)
+	await get_tree().create_timer(1).timeout
+	chan.visible = false
+
+func _lanzar_caroline(_arg) -> void:
+	if caro.visible:
+		return
+	caro.visible = true
+	MusicManager.play_sound("res://assets/sfx/Voz.wav", 0.2, false, 2)
+	await get_tree().create_timer(1).timeout
+	caro.visible = false
+
+func _lanzar_kira(_arg) -> void:
+	if kira.visible:
+		return
+	kira.visible = true
+	MusicManager.play_sound("res://assets/sfx/Voz.wav", 0.2, false, 0.5)
+	await get_tree().create_timer(1).timeout
+	kira.visible = false

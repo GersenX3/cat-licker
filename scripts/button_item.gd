@@ -17,7 +17,7 @@ var base_production: Big_Number  # BpS (Balls per Second)
 var cost_multiplier: float = 1.15  # Factor exponencial (15% como Cookie Clicker)
 var store_index: int = 0
 var amort_time: Big_Number
-
+var has_emitted_pop_up_kira: bool = false
 # Estado actual
 var quantity: int = 0  # Cantidad comprada
 
@@ -111,7 +111,7 @@ func _on_pressed() -> void:
 		shake_button()
 		# Crear animación del icono (puedes ajustar el offset X aquí)
 		spawn_icon_animation(-137)
-		translation_animation(Vector2(768-16, 576), Vector2(384+16, 576), 2)  # 0 = centro, valores negativos = izquierda, positivos = derecha
+		translation_animation(Vector2(768-32, 576-64), Vector2(384+32, 576-64), 4)  # 0 = centro, valores negativos = izquierda, positivos = derecha
 
 # Crear y animar el icono flotante
 func spawn_icon_animation(x_offset: float = 0.0) -> void:
@@ -177,7 +177,7 @@ func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float =
 	# Crear el Sprite2D
 	var icon_sprite = Sprite2D.new()
 	icon_sprite.texture = icon
-	icon_sprite.z_index = 0
+	icon_sprite.z_index = 8
 	icon_sprite.global_position = from_pos
 	
 	# Ajustar escala
@@ -207,8 +207,9 @@ func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float =
 		if inventory_container and inventory_container.has_method("add_icon"):
 			# Reparentar el icono al VBoxContainer
 			icon_sprite.get_parent().remove_child(icon_sprite)
-			inventory_container.call("add_icon", icon_sprite)
+			inventory_container.call("add_icon", icon_sprite, "res://resources/items/%d_%s.tres" % [store_index, item_name])
 			EventBus.emit("llegada", {"item": "", "quantity": ""})
+			EventBus.emit("pop_up_chanel", null)
 	).set_delay(0)
 
 func shake_button() -> void:
@@ -246,6 +247,9 @@ func update_button_state() -> void:
 	if has_been_unlocked:
 		if current_balance.is_greater_or_equal(cost):
 			current_state = ButtonState.UNLOCKED
+			if not has_emitted_pop_up_kira:
+				EventBus.emit("pop_up_kira", null)
+				has_emitted_pop_up_kira = true
 		else:
 			current_state = ButtonState.LOCKED
 		apply_visual_state()
