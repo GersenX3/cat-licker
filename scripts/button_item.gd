@@ -385,3 +385,26 @@ func should_be_visible() -> bool:
 	var quarter_cost = cost.multiply(Big_Number.new(0.25, 0))
 	
 	return current_balance.is_greater_or_equal(quarter_cost) or has_been_unlocked
+
+# Devuelve el aporte de producción de este botón al BpS total
+func get_production_contribution() -> Big_Number:
+	if quantity == 0 or base_production == null:
+		return Big_Number.new(0, 0)
+	return base_production.multiply(Big_Number.from_float(float(quantity)))
+
+# Serializa el estado del botón para guardarlo
+func get_save_data() -> Dictionary:
+	return {
+		"store_index":           store_index,
+		"quantity":              quantity,
+		"has_been_unlocked":     has_been_unlocked,
+		"has_emitted_pop_up_kira": has_emitted_pop_up_kira
+	}
+
+# Restaura el estado del botón desde un save
+func apply_save_data(data: Dictionary) -> void:
+	quantity                = data.get("quantity", 0)
+	has_been_unlocked       = data.get("has_been_unlocked", false)
+	has_emitted_pop_up_kira = data.get("has_emitted_pop_up_kira", false)
+	update_labels()
+	update_button_state()
