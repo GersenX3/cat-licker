@@ -35,6 +35,13 @@ offset_bottom = 656.0
 layout_mode = 2
 alignment = 1
 
+[node name="Reset" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1059959776]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6wm04")
+text = "Reset"
+script = ExtResource("4_f4mfi")
+translation_key = "RESET"
+
 [node name="CRTButton" type="CheckButton" parent="CenterContainer/VBoxContainer" unique_id=1476357861]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_6wm04")
@@ -76,4 +83,5 @@ text = "Save"
 script = ExtResource("4_f4mfi")
 translation_key = "SAVE"
 
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/SAVE" to="." method="_on_save_pressed"]

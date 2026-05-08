@@ -31,7 +31,7 @@ func _on_pressed() -> void:
 	# Efectos sonoros
 	var combo_factor = float(click_count) / float(get_max_combo())
 	var pitch = 1.0 + (combo_factor * 0.5) + randf_range(0, 0.3) - 0.5
-	var volume = 1.0 + (combo_factor * 0.8) + randf_range(0, 0.3)
+	var volume = (1.0 + (combo_factor * 0.8) + randf_range(0, 0.3))/2
 	MusicManager.play_sound("res://assets/sfx/slurp.ogg", volume, true, pitch, global_position)
 	# Texto flotante
 	spawn_floating_text("+" + combo_bonus.to_readable_string(), get_local_mouse_position())

@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bqsfw81u8fnnp"]
 
-[ext_resource type="Shader" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
+[ext_resource type="Shader" uid="uid://b0uan8nmnujw0" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://tqmsp687g567" path="res://assets/tiles/PiedraClara.png" id="2_0ld40"]
 [ext_resource type="Script" uid="uid://deonqu02dqwq4" path="res://scripts/color_rect.gd" id="2_chjal"]
@@ -43,23 +43,6 @@
 [ext_resource type="Texture2D" uid="uid://bxkpumnvv20lr" path="res://assets/sprites/personajes/caroline_action.png" id="38_c6pm6"]
 [ext_resource type="Texture2D" uid="uid://b7g4foh0jwsdo" path="res://assets/sprites/personajes/chanel_idle.png" id="38_pibwh"]
 [ext_resource type="Texture2D" uid="uid://fk2d5bo7uufl" path="res://assets/sprites/personajes/kira_negacion.png" id="39_c6pm6"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
-shader = ExtResource("1_0ld40")
-shader_parameter/resolution = Vector2(480, 452)
-shader_parameter/scan_line_amount = 1.0
-shader_parameter/warp_amount = 0.30000048924999945
-shader_parameter/noise_amount = 0.03
-shader_parameter/interference_amount = 0.2
-shader_parameter/grille_amount = 0.0
-shader_parameter/grille_size = 1.0
-shader_parameter/vignette_amount = 0.3
-shader_parameter/vignette_intensity = 1.0
-shader_parameter/aberation_amount = 0.0
-shader_parameter/roll_line_amount = 0.0
-shader_parameter/roll_speed = 3.7999999946691787e-07
-shader_parameter/scan_line_strength = -9.999994775000005
-shader_parameter/pixel_strength = -2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u5g"]
 shader = ExtResource("1_dp3eg")
@@ -1300,6 +1283,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
+shader = ExtResource("1_0ld40")
+shader_parameter/resolution = Vector2(480, 452)
+shader_parameter/scan_line_amount = 1.0
+shader_parameter/warp_amount = 0.30000048924999945
+shader_parameter/noise_amount = 0.03
+shader_parameter/interference_amount = 0.2
+shader_parameter/grille_amount = 0.0
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.3
+shader_parameter/vignette_intensity = 1.0
+shader_parameter/aberation_amount = 0.0
+shader_parameter/roll_line_amount = 0.0
+shader_parameter/roll_speed = 3.7999999946691787e-07
+shader_parameter/scan_line_strength = -9.999994775000005
+shader_parameter/pixel_strength = -2.0
+
 [node name="Main" type="Control" unique_id=973260300]
 layout_mode = 3
 anchors_preset = 15
@@ -1307,15 +1307,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1597513730]
-z_index = 10
-material = SubResource("ShaderMaterial_gqmmt")
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 656.0
-script = ExtResource("2_chjal")
 metadata/_edit_lock_ = true
 
 [node name="UI" type="Node2D" parent="." unique_id=894319745]
@@ -1710,6 +1701,16 @@ z_index = -1
 position = Vector2(224, -2.6666667)
 sprite_frames = SubResource("SpriteFrames_j2jfr")
 autoplay = "default"
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D" unique_id=1597513730]
+z_index = 10
+material = SubResource("ShaderMaterial_gqmmt")
+offset_left = -192.0
+offset_top = -320.0
+offset_right = 208.0
+offset_bottom = 336.0
+mouse_filter = 2
+script = ExtResource("2_chjal")
 
 [connection signal="animation_finished" from="UI/Background/Kira" to="UI/Background/Kira" method="_on_animation_finished"]
 [connection signal="animation_finished" from="UI/Background/Chanel" to="UI/Background/Chanel" method="_on_animation_finished"]

@@ -19,6 +19,10 @@ run/main_scene="uid://bqsfw81u8fnnp"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://cipl80bjvh2ed"
+
 [autoload]
 
 EventBus="*res://addons/event_bus_plugin/EventBus.gd"
@@ -33,7 +37,7 @@ window/size/viewport_width=384
 window/size/viewport_height=656
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [input]
 
@@ -46,3 +50,4 @@ advance_dialog={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

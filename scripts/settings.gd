@@ -19,3 +19,9 @@ func _on_save_pressed() -> void:
 		sfx_slider_2.value
 	)
 	settings.queue_free()
+
+
+func _on_reset_pressed() -> void:
+	GlobalValues.delete_save()
+	
+	pass # Replace with function body.

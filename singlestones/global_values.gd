@@ -32,6 +32,7 @@ func _load_translations() -> void:
 	en.locale = "en"
 
 	var entries = {
+		"RESET": ["Reiniciar", "Reset"],
 		"SAVE": ["Guardar", "Save"],
 		"MUSIC": ["Musica", "Music"],
 		"SFX": ["Efectos", "SFX"],
@@ -139,7 +140,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var increment = Big_Number.new(
-		hairs_balls_per_second.mantisa * _delta * 9999999999,
+		hairs_balls_per_second.mantisa * _delta,
 		hairs_balls_per_second.exponential
 	)
 	hair_balls_total = hair_balls_total.add_another_big(increment)
