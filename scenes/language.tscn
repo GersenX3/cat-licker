@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cmk0xxbowqh7n"]
+
+[ext_resource type="FontFile" uid="uid://c18d58cxjxn71" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_pfgvu"]
+[ext_resource type="Script" uid="uid://d0q40kyxqnilh" path="res://scripts/language.gd" id="1_yrgbr"]
+
+[node name="Language" type="Control" unique_id=1788461054]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -336.0
+offset_right = -192.0
+offset_bottom = -336.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_yrgbr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=711346208]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 656.0
+color = Color(0, 0, 0, 0.50980395)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=103050342]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 656.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1446749046]
+layout_mode = 2
+alignment = 1
+
+[node name="English" type="Button" parent="CenterContainer/VBoxContainer" unique_id=725716791]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_pfgvu")
+text = "English"
+
+[node name="Español" type="Button" parent="CenterContainer/VBoxContainer" unique_id=179860391]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_pfgvu")
+text = "Español"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/English" to="." method="_on_english_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Español" to="." method="_on_español_pressed"]

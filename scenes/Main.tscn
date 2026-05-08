@@ -3,6 +3,7 @@
 [ext_resource type="Shader" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://tqmsp687g567" path="res://assets/tiles/PiedraClara.png" id="2_0ld40"]
+[ext_resource type="Script" uid="uid://deonqu02dqwq4" path="res://scripts/color_rect.gd" id="2_chjal"]
 [ext_resource type="Texture2D" uid="uid://echohgmyw3cw" path="res://assets/tiles/planta.png" id="3_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://bdghx0to3e2o8" path="res://assets/tiles/Tierra.png" id="4_yc10j"]
 [ext_resource type="Texture2D" uid="uid://dt5r2ub76cos1" path="res://assets/tiles/Tileset_Huida_Unido.png" id="5_jscy8"]
@@ -26,8 +27,11 @@
 [ext_resource type="PackedScene" uid="uid://d15bowe5yf074" path="res://scenes/store.tscn" id="18_dp3eg"]
 [ext_resource type="Script" uid="uid://dtv531y5fqw5l" path="res://scripts/caro.gd" id="21_2wyq8"]
 [ext_resource type="Texture2D" uid="uid://6b4rf06yrmn1" path="res://assets/sprites/personajes/caro_licking.png" id="21_vxglm"]
+[ext_resource type="Script" uid="uid://bi13j4kqr0gyi" path="res://scripts/balls.gd" id="26_2cjbq"]
 [ext_resource type="PackedScene" uid="uid://b1ymprivc87k" path="res://scenes/particles.tscn" id="26_2f3dj"]
 [ext_resource type="Script" uid="uid://cmuk7aymj1dyi" path="res://scripts/store_container_intentory.gd" id="27_2f3dj"]
+[ext_resource type="Texture2D" uid="uid://b86cmlwlvplou" path="res://assets/sprites/UI/language_button.png" id="27_5he1u"]
+[ext_resource type="Texture2D" uid="uid://7trhyj27jruh" path="res://assets/sprites/UI/boton_engranaje.png" id="28_5poiv"]
 [ext_resource type="AudioStream" uid="uid://crkk1mdjs58y8" path="res://assets/music/DreamHouse.wav" id="29_yq6so"]
 [ext_resource type="Script" uid="uid://ovi1qvnwerg4" path="res://scripts/controlador_camara.gd" id="30_fv21b"]
 [ext_resource type="Texture2D" uid="uid://b2i8cimv8ok1m" path="res://assets/sprites/UI/stock_button.png" id="31_5q0nq"]
@@ -1311,6 +1315,7 @@ material = SubResource("ShaderMaterial_gqmmt")
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 656.0
+script = ExtResource("2_chjal")
 metadata/_edit_lock_ = true
 
 [node name="UI" type="Node2D" parent="." unique_id=894319745]
@@ -1422,6 +1427,10 @@ scroll_active = false
 scroll_following = true
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("26_2cjbq")
+translation_key = "STOCK"
+bbcode_before = "[wave]"
+bbcode_after = "[/wave]"
 metadata/_edit_lock_ = true
 
 [node name="Label2" type="RichTextLabel" parent="UI/Labels" unique_id=81463127]
@@ -1429,7 +1438,7 @@ modulate = Color(0.9607843, 1, 0.9098039, 1)
 z_index = 5
 offset_left = 808.0
 offset_top = 56.0
-offset_right = 984.0
+offset_right = 1024.0
 offset_bottom = 88.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 6
@@ -1439,9 +1448,11 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[wave]Store[/wave]"
 scroll_active = false
-horizontal_alignment = 1
 vertical_alignment = 1
-metadata/_edit_lock_ = true
+script = ExtResource("26_2cjbq")
+translation_key = "STORE"
+bbcode_before = "[wave]"
+bbcode_after = "[/wave]"
 
 [node name="Label3" type="RichTextLabel" parent="UI/Labels" unique_id=1163685196]
 modulate = Color(0.9607843, 1, 0.9098039, 1)
@@ -1540,9 +1551,9 @@ script = ExtResource("16_5q0nq")
 
 [node name="second" type="RichTextLabel" parent="UI/HUB" unique_id=130691464]
 z_index = 8
-offset_left = 512.0
+offset_left = 448.0
 offset_top = 128.0
-offset_right = 640.0
+offset_right = 704.0
 offset_bottom = 151.0
 size_flags_horizontal = 4
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -1552,13 +1563,16 @@ bbcode_enabled = true
 text = "[wave]hair balls[/wave]"
 scroll_active = false
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
+script = ExtResource("26_2cjbq")
+translation_key = "BALLS"
+bbcode_before = "[wave]"
+bbcode_after = "[/wave]"
 
 [node name="second2" type="RichTextLabel" parent="UI/HUB" unique_id=294945031]
 z_index = 8
-offset_left = 488.0
+offset_left = 448.0
 offset_top = 200.0
-offset_right = 664.0
+offset_right = 704.0
 offset_bottom = 223.0
 size_flags_horizontal = 4
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -1567,6 +1581,10 @@ bbcode_enabled = true
 text = "[wave]per second[/wave]"
 scroll_active = false
 horizontal_alignment = 1
+script = ExtResource("26_2cjbq")
+translation_key = "PER_SECOND"
+bbcode_before = "[wave]"
+bbcode_after = "[/wave]"
 
 [node name="Button" type="Button" parent="UI/HUB" unique_id=451481733]
 offset_left = 496.0
@@ -1575,6 +1593,22 @@ offset_right = 656.0
 offset_bottom = 456.0
 script = ExtResource("17_dgi5k")
 metadata/_edit_lock_ = true
+
+[node name="LanguageButton" type="TextureButton" parent="UI/HUB" unique_id=1180513973]
+offset_left = 424.0
+offset_top = 40.0
+offset_right = 520.0
+offset_bottom = 136.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("27_5he1u")
+
+[node name="OptionsButton" type="TextureButton" parent="UI/HUB" unique_id=768170041]
+offset_left = 680.0
+offset_top = 40.0
+offset_right = 696.0
+offset_bottom = 56.0
+scale = Vector2(3, 3)
+texture_normal = ExtResource("28_5poiv")
 
 [node name="Inventory" type="Control" parent="UI" unique_id=743576593]
 layout_mode = 3
@@ -1617,6 +1651,7 @@ metadata/_edit_lock_ = true
 position = Vector2(576, 344)
 stream = ExtResource("29_yq6so")
 autoplay = true
+bus = &"Music"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=711485069]
 position = Vector2(576, 320)
@@ -1679,6 +1714,8 @@ autoplay = "default"
 [connection signal="animation_finished" from="UI/Background/Kira" to="UI/Background/Kira" method="_on_animation_finished"]
 [connection signal="animation_finished" from="UI/Background/Chanel" to="UI/Background/Chanel" method="_on_animation_finished"]
 [connection signal="pressed" from="UI/HUB/Button" to="UI/HUB/Button" method="_on_pressed"]
+[connection signal="pressed" from="UI/HUB/LanguageButton" to="Camera2D/Controlador camara" method="_on_language_button_pressed"]
+[connection signal="pressed" from="UI/HUB/OptionsButton" to="Camera2D/Controlador camara" method="_on_options_button_pressed"]
 [connection signal="pressed" from="Camera2D/Controlador camara/HBoxContainer/Stock" to="Camera2D/Controlador camara" method="_on_stock_pressed"]
 [connection signal="pressed" from="Camera2D/Controlador camara/HBoxContainer/Hub" to="Camera2D/Controlador camara" method="_on_hub_pressed"]
 [connection signal="pressed" from="Camera2D/Controlador camara/HBoxContainer/Store" to="Camera2D/Controlador camara" method="_on_store_pressed"]

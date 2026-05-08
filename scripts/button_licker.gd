@@ -21,9 +21,9 @@ func _on_pressed() -> void:
 	EventBus.emit("button_click", "click")
 	var now = Time.get_ticks_msec() / 1000.0
 	if now - last_click_time > combo_window:
-		click_count = 0
+		click_count = 1
 	last_click_time = now
-	click_count = min(click_count + 1, get_max_combo())
+	click_count = min(click_count * 2, get_max_combo())
 	# Calcular bonus y ganancias
 	var combo_bonus = Big_Number.from_float(float(click_count))
 	var total_gain = GlobalValues.click_value.multiply(combo_bonus)

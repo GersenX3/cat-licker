@@ -209,18 +209,16 @@ func update_button_quantities() -> void:
 # Crear botones de items
 # Crear botones de items
 func items_creation():
-	# Ordenar store_items por store_index de menor a mayor
 	store_items.sort_custom(func(a, b): return a.store_index < b.store_index)
 	
-	var index = 0 
+	var index = 0
 	for item in store_items:
-		print(item.item_name)
 		var new_item = reference_item_button.instantiate()
 		
-		# Pasar todas las propiedades del Resource al Button
 		new_item.store_index = int(index)
-		new_item.item_name = item.item_name
-		new_item.description = item.description
+		# ✅ Usar claves de traducción en vez del valor directo
+		new_item.item_name = tr("ITEM_%d_NAME" % index)
+		new_item.description = tr("ITEM_%d_DESC" % index)
 		new_item.icon = item.icon
 		new_item.base_cost = item.base_cost
 		new_item.base_production = item.base_production
@@ -228,11 +226,8 @@ func items_creation():
 		new_item.amort_time = item.amort_time
 		new_item.quantity = item.quantity
 		
-		# Asignar nombre y agregar al contenedor
-		new_item.name = item.item_name
+		new_item.name = item.item_name  # ← este sigue igual (nombre de nodo interno)
 		v_box_container.add_child(new_item)
-		
-		# El botón manejará su propia visibilidad en _ready()
 		
 		index += 1
 
@@ -250,3 +245,16 @@ func _load_store_items() -> void:
 			push_error("❌ Failed to load: " + item_path)
 	
 	print("📦 Total items loaded: ", store_items.size())
+
+# En store_manager.gd — nueva función
+func refresh_item_labels() -> void:
+	if not v_box_container:
+		return
+	
+	for i in range(v_box_container.get_child_count()):
+		var button = v_box_container.get_child(i)
+		if button and i < store_items.size():
+			button.item_name = tr("ITEM_%d_NAME" % i)
+			button.description = tr("ITEM_%d_DESC" % i)
+			if button.has_method("update_labels"):
+				button.call("update_labels")

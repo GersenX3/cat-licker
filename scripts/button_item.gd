@@ -44,17 +44,21 @@ var has_been_unlocked: bool = false  # Si ya alcanzó el estado UNLOCKED alguna 
 func _ready() -> void:
 	custom_minimum_size = Vector2(344, 64)
 	
-	# ✅ SINCRONIZAR CANTIDAD CON STORE
 	if Store and Store.store_items.size() > store_index:
 		var store_item = Store.store_items[store_index]
 		quantity = store_item.quantity
-		print("🔄 Synced quantity for ", item_name, ": ", quantity)
 	
-	# Configurar sistema de scroll
+	# ✅ Actualizar nombre traducido al cambiar idioma
+	EventBus.subscribe("locale_changed", _on_locale_changed, false)
+	
 	setup_scroll_system()
-	
 	update_labels()
 	update_button_state()
+
+func _on_locale_changed(_locale) -> void:
+	item_name = tr("ITEM_%d_NAME" % store_index)
+	description = tr("ITEM_%d_DESC" % store_index)
+	update_labels()
 
 
 func _process(_delta: float) -> void:
@@ -207,7 +211,7 @@ func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float =
 		if inventory_container and inventory_container.has_method("add_icon"):
 			# Reparentar el icono al VBoxContainer
 			icon_sprite.get_parent().remove_child(icon_sprite)
-			inventory_container.call("add_icon", icon_sprite, "res://resources/items/%d_%s.tres" % [store_index, item_name])
+			inventory_container.call("add_icon", icon_sprite, store_index)  # ✅ índice, no path
 			EventBus.emit("llegada", {"item": "", "quantity": ""})
 			EventBus.emit("pop_up_chanel", null)
 	).set_delay(0)
@@ -224,12 +228,10 @@ func shake_button() -> void:
 
 # Función para actualizar todos los labels
 func update_labels() -> void:
-	scroll_label.text = str(self.name)
+	scroll_label.text = item_name  # ✅ antes: str(self.name)
 	price_label.text = "$ " + str(calculate_current_cost().to_readable_string())
 	prod_label.text = str(base_production.to_readable_string()) + " b/s"
 	owned_label.text = str(quantity)
-	
-	# Verificar si necesita scroll después de actualizar el texto
 	check_name_scroll()
 
 # Calcular el costo actual basado en la cantidad comprada
@@ -373,9 +375,7 @@ func stop_name_scroll() -> void:
 	if name_scroll_tween:
 		name_scroll_tween.kill()
 		name_scroll_tween = null
-	
-	# Restaurar texto original sin multiplicar
-	scroll_label.text = str(self.name)
+	scroll_label.text = item_name  # ✅ antes: str(self.name)
 	scroll_label.position.x = 0
 
 # Verificar si debe ser visible (llamado desde Store)

@@ -17,14 +17,14 @@ func _ready() -> void:
 # AGREGAR ÍCONO
 # ─────────────────────────────────────────────
 
-func add_icon(icon_sprite: Sprite2D, item_path: String = "") -> void:
+func add_icon(icon_sprite: Sprite2D, store_index: int = -1) -> void:
 	collected_icons.append(icon_sprite)
 	icon_sprite.z_index = 9
 	add_child(icon_sprite)
 	icon_sprite.scale = Vector2(1, 1)
 
-	if item_path != "":
-		icon_sprite.set_meta("item_path", item_path)
+	if store_index >= 0:
+		icon_sprite.set_meta("store_index", store_index)  # ✅ guardar índice
 
 	organize_icons()
 	update_container_size()
@@ -51,17 +51,17 @@ func _gui_input(event: InputEvent) -> void:
 		return
 
 	var icon = collected_icons[clicked_index]
-	var item_path = icon.get_meta("item_path", "")
+	var store_index = int(icon.get_meta("store_index", -1))
 
-	if item_path == "":
+	if store_index < 0:
 		return
 
-	var group = flood_fill(clicked_index, item_path)
+	var group = flood_fill(clicked_index, store_index)
 
 	if group.size() < 2:
 		return
 
-	explode_group(group, item_path, event.position)
+	explode_group(group, store_index, event.position)
 
 func get_icon_index_at(pos: Vector2) -> int:
 	for i in range(collected_icons.size()):
@@ -78,7 +78,7 @@ func get_icon_index_at(pos: Vector2) -> int:
 # FLOOD FILL
 # ─────────────────────────────────────────────
 
-func flood_fill(start_index: int, item_path: String) -> Array:
+func flood_fill(start_index: int, store_index: int) -> Array:
 	var visited: Array = []
 	var queue: Array = [start_index]
 
@@ -88,7 +88,8 @@ func flood_fill(start_index: int, item_path: String) -> Array:
 			continue
 		if not is_instance_valid(collected_icons[current]):
 			continue
-		if collected_icons[current].get_meta("item_path", "") != item_path:
+		# ✅ comparar store_index en vez de item_path
+		if int(collected_icons[current].get_meta("store_index", -1)) != store_index:
 			continue
 
 		visited.append(current)
@@ -120,8 +121,8 @@ func flood_fill(start_index: int, item_path: String) -> Array:
 # EXPLOSIÓN
 # ─────────────────────────────────────────────
 
-func explode_group(indices: Array, item_path: String, click_pos: Vector2) -> void:
-	var total_payout = calculate_payout(item_path, indices.size())
+func explode_group(indices: Array, store_index: int, click_pos: Vector2) -> void:
+	var total_payout = calculate_payout(store_index, indices.size())
 	var per_icon_value = total_payout.divide(Big_Number.from_float(float(indices.size())))
 
 	var icons_to_explode: Array[Sprite2D] = []
@@ -259,17 +260,17 @@ func organize_icons_animated() -> void:
 # PAGO
 # ─────────────────────────────────────────────
 
-func calculate_payout(item_path: String, count: int) -> Big_Number:
-	var resource = load(item_path)
-	if not resource:
-		print("❌ No se pudo cargar el recurso: ", item_path)
+func calculate_payout(store_index: int, count: int) -> Big_Number:
+	if store_index < 0 or store_index >= Store.store_items.size():
+		push_error("❌ store_index inválido: " + str(store_index))
 		return Big_Number.new(0, 0)
 
-	var base_cost = resource.base_cost
+	var item = Store.store_items[store_index]
+	var base_cost = item.base_cost
 	var multiplier = Big_Number.from_float(float(count * count))
 	var payout = base_cost.multiply(multiplier)
 
-	print("💥 Explosión de ", count, " ítems — ", resource.item_name)
+	print("💥 Explosión de ", count, " ítems — ", item.item_name)
 	print("💰 Payout: ", payout.to_readable_string())
 
 	GlobalValues.hair_balls_total = GlobalValues.hair_balls_total.add_another_big(payout)
@@ -322,7 +323,7 @@ func get_save_data() -> Array:
 		if is_instance_valid(icon) and icon.texture:
 			save_array.append({
 				"texture_path": icon.texture.resource_path,
-				"item_path": icon.get_meta("item_path", ""),
+				"store_index": int(icon.get_meta("store_index", -1)),  # ✅
 				"position": { "x": icon.position.x, "y": icon.position.y },
 				"scale": { "x": icon.scale.x, "y": icon.scale.y }
 			})
@@ -342,8 +343,9 @@ func load_save_data(save_array: Array) -> void:
 				icon_sprite.texture = texture
 				icon_sprite.z_index = 9
 
-				if icon_data.has("item_path") and icon_data["item_path"] != "":
-					icon_sprite.set_meta("item_path", icon_data["item_path"])
+				var idx = icon_data.get("store_index", -1)
+				if idx >= 0:
+					icon_sprite.set_meta("store_index", idx)  # ✅
 
 				if icon_data.has("scale"):
 					icon_sprite.scale = Vector2(icon_data["scale"]["x"], icon_data["scale"]["y"])

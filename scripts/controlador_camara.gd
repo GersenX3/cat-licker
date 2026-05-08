@@ -9,6 +9,8 @@ extends Control
 @onready var kira: AnimatedSprite2D = $HBoxContainer/kira
 
 var origin: Vector2
+var language_scene = preload("res://scenes/language.tscn")
+var settings_scene = preload("res://scenes/settings.tscn")
 
 func _ready() -> void:
 	EventBus.subscribe("pop_up_chanel", _lanzar_chanel, false)
@@ -59,3 +61,13 @@ func _lanzar_kira(_arg) -> void:
 	MusicManager.play_sound("res://assets/sfx/Voz.wav", 0.2, false, 0.5)
 	await get_tree().create_timer(1).timeout
 	kira.visible = false
+
+
+func _on_language_button_pressed() -> void:
+	var instancia = language_scene.instantiate()
+	camera_2d.add_child(instancia)
+
+
+func _on_options_button_pressed() -> void:
+	var instancia = settings_scene.instantiate()
+	camera_2d.add_child(instancia)

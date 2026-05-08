@@ -21,10 +21,18 @@ func _ready():
 	music_player.volume_db = MIN_DB
 	music_player.pitch_scale = DEFAULT_PITCH
 	music_player.bus = "Music"
-	music_player.process_mode = Node.PROCESS_MODE_ALWAYS  # Seguir sonando en pausa
+	music_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	# Establecer volumen inicial
 	set_volume(DEFAULT_VOLUME)
+	
+	# ✅ Esperar settings cargados para aplicar volúmenes guardados
+	EventBus.subscribe("settings_loaded", _on_settings_loaded, false)
+	EventBus.subscribe("change_settings", _on_change_settings, false)
+
+# ====================================================================
+# 🎵 MÚSICA
+# ====================================================================
 
 # Reproduce una canción con transición suave
 func play_song(song_path: String, fade_time: float = DEFAULT_FADE_TIME, force_restart: bool = false):
@@ -73,7 +81,7 @@ func _stop_player():
 	music_player.stop()
 	current_song = ""
 
-# Ajusta el volumen principal (0.0 a 1.0)
+# Ajusta el volumen del music_player (0.0 a 1.0)
 func set_volume(volume: float):
 	target_volume = linear_to_db(clamp(volume, 0.0, 1.0))
 	if not transition_tween or not transition_tween.is_valid():
@@ -100,31 +108,68 @@ func _cleanup_tweens():
 	if transition_tween and transition_tween.is_valid():
 		transition_tween.kill()
 
+# ====================================================================
+# 🔊 SFX
+# ====================================================================
+
 # Reproduce un efecto de sonido
-func play_sound(sound_path: String, volume: float = 1.0, positional: bool = false, 
+func play_sound(sound_path: String, volume: float = 1.0, positional: bool = false,
 			   pitch: float = 1.0, position: Vector2 = Vector2.ZERO):
 	var sound
-	
+
 	if positional:
 		sound = AudioStreamPlayer2D.new()
-		# Asignar posición si se proporcionó
 		if position != Vector2.ZERO:
 			sound.global_position = position
 		else:
-			# Opcional: asignar posición del jugador si no se especifica
-			# (comenta si prefieres siempre posición específica)
 			var player = get_tree().get_first_node_in_group("player")
 			if player:
 				sound.global_position = player.global_position
 	else:
 		sound = AudioStreamPlayer.new()
-	
-	# Agregar a la escena actual para contexto espacial
+
 	get_tree().root.get_node("MusicManager").add_child(sound)
-	
+
 	sound.stream = load(sound_path)
 	sound.volume_db = linear_to_db(volume)
 	sound.pitch_scale = clamp(pitch, 0.5, 2.0)
 	sound.bus = "SFX"
 	sound.play()
 	sound.finished.connect(sound.queue_free)
+
+# ====================================================================
+# ⚙️ SETTINGS
+# ====================================================================
+
+func _on_settings_loaded(_args) -> void:
+	set_music_volume(GlobalValues.music_volume)
+	set_sfx_volume(GlobalValues.sfx_volume)
+
+func _on_change_settings(args) -> void:
+	# args = [crt, music, sfx]
+	set_music_volume(args[1])
+	set_sfx_volume(args[2])
+
+# Volumen del bus Music (0 a 100)
+func set_music_volume(value: float) -> void:
+	var bus_index = AudioServer.get_bus_index("Music")
+	if bus_index == -1:
+		push_error("❌ Bus 'Music' no encontrado")
+		return
+	if value <= 0.0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 100.0))
+
+# Volumen del bus SFX (0 a 100)
+func set_sfx_volume(value: float) -> void:
+	var bus_index = AudioServer.get_bus_index("SFX")
+	if bus_index == -1:
+		push_error("❌ Bus 'SFX' no encontrado")
+		return
+	if value <= 0.0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 100.0))

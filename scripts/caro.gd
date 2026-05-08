@@ -8,6 +8,11 @@ var has_woken_up := false
 var is_playing_click_anim := false
 
 func _ready() -> void:
+	TranslationServer.set_locale("es")
+	print(tr("ITEM_0_NAME"))  # Debe imprimir: Lengua Áspera
+	
+	TranslationServer.set_locale("en")
+	print(tr("ITEM_0_NAME"))  # Debe imprimir: Rough Tongue
 	# Animación automática inicial
 	if sprite_frames and sprite_frames.has_animation(animation):
 		play(animation)

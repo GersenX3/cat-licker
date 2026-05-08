@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://c3wwn2cxrimxs"]
+
+[ext_resource type="Script" uid="uid://cygwjpmwuo0xi" path="res://scripts/settings.gd" id="1_r6d6q"]
+[ext_resource type="FontFile" uid="uid://c18d58cxjxn71" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_6wm04"]
+[ext_resource type="Script" uid="uid://drhlrxg8ong4l" path="res://scripts/tr_label.gd" id="3_6wm04"]
+[ext_resource type="Script" uid="uid://7tljxr4xn3nu" path="res://scripts/tr_button.gd" id="4_f4mfi"]
+
+[node name="Settings" type="Control" unique_id=1788461054]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -336.0
+offset_right = -192.0
+offset_bottom = -336.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_r6d6q")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=711346208]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 656.0
+color = Color(0, 0, 0, 0.50980395)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=103050342]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 656.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1446749046]
+layout_mode = 2
+alignment = 1
+
+[node name="CRTButton" type="CheckButton" parent="CenterContainer/VBoxContainer" unique_id=1476357861]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6wm04")
+text = "CRT"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=142255670]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1122411120]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6wm04")
+horizontal_alignment = 1
+script = ExtResource("3_6wm04")
+translation_key = "MUSIC"
+
+[node name="MusicSlider" type="HSlider" parent="CenterContainer/VBoxContainer" unique_id=1507205762]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=167681555]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1600645141]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6wm04")
+horizontal_alignment = 1
+script = ExtResource("3_6wm04")
+translation_key = "SFX"
+
+[node name="SFXSlider2" type="HSlider" parent="CenterContainer/VBoxContainer" unique_id=1648593657]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=1296422059]
+layout_mode = 2
+
+[node name="SAVE" type="Button" parent="CenterContainer/VBoxContainer" unique_id=179860391]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_6wm04")
+text = "Save"
+script = ExtResource("4_f4mfi")
+translation_key = "SAVE"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SAVE" to="." method="_on_save_pressed"]

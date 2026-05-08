@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StoreItem" load_steps=6 format=3 uid="uid://bs6sg7yqin42g"]
+[gd_resource type="Resource" script_class="StoreItem" format=3 uid="uid://bs6sg7yqin42g"]
 
 [ext_resource type="Script" uid="uid://cux2ph57gpruq" path="res://scripts/clases/Big_Number.gd" id="1_2ep75"]
 [ext_resource type="Texture2D" uid="uid://xwttegwcxgco" path="res://assets/sprites/items/6.png" id="2_1y7cv"]
