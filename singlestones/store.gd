@@ -32,25 +32,10 @@ const ITEM_PATHS = [
 # Catálogo de items (configura en el Inspector o por código)
 var store_items: Array[StoreItem] = []
 var reference_item_button = preload("res://scenes/item.tscn")
-@onready var v_box_container: VBoxContainer = get_node_or_null("/root/Main/UI/Store/ScrollContainer/StoreContainer")
+var v_box_container: VBoxContainer
 
 func _ready() -> void:
-	print("=== STORE INITIALIZATION START ===")
-	print("GlobalValues.hair_balls_total BEFORE: ", GlobalValues.hair_balls_total.to_readable_string())
-	print("GlobalValues.hairs_balls_per_second BEFORE: ", GlobalValues.hairs_balls_per_second.to_readable_string())
-	
-	_load_store_items()
-	
-	print("\n=== ITEMS LOADED ===")
-	for i in range(store_items.size()):
-		var item = store_items[i]
-		print("Item[", i, "]: ", item.item_name, " | quantity: ", item.quantity, " | base_prod: ", item.base_production.to_readable_string())
-	
-	_update_total_production()
-	
-	print("\n=== AFTER UPDATE PRODUCTION ===")
-	print("GlobalValues.hairs_balls_per_second AFTER: ", GlobalValues.hairs_balls_per_second.to_readable_string())
-
+	initialize()
 
 #func _process(_delta: float) -> void:
 	#if can_afford(0):
@@ -207,8 +192,14 @@ func update_button_quantities() -> void:
 			print("🔄 Updated button ", button.item_name, " quantity: ", button.quantity)
 
 # Crear botones de items
-# Crear botones de items
-func items_creation():
+func items_creation() -> void:
+	if not v_box_container:
+		return
+	
+	# Limpiar botones existentes antes de crear nuevos
+	for child in v_box_container.get_children():
+		child.free()
+	
 	store_items.sort_custom(func(a, b): return a.store_index < b.store_index)
 	
 	var index = 0
@@ -216,7 +207,6 @@ func items_creation():
 		var new_item = reference_item_button.instantiate()
 		
 		new_item.store_index = int(index)
-		# ✅ Usar claves de traducción en vez del valor directo
 		new_item.item_name = tr("ITEM_%d_NAME" % index)
 		new_item.description = tr("ITEM_%d_DESC" % index)
 		new_item.icon = item.icon
@@ -226,12 +216,14 @@ func items_creation():
 		new_item.amort_time = item.amort_time
 		new_item.quantity = item.quantity
 		
-		new_item.name = item.item_name  # ← este sigue igual (nombre de nodo interno)
+		new_item.name = item.item_name
 		v_box_container.add_child(new_item)
 		
 		index += 1
 
 func _load_store_items() -> void:
+	if !store_items.is_empty():
+		return
 	print("🔄 Loading items...")
 	
 	for item_path in ITEM_PATHS:
@@ -258,3 +250,19 @@ func refresh_item_labels() -> void:
 			button.description = tr("ITEM_%d_DESC" % i)
 			if button.has_method("update_labels"):
 				button.call("update_labels")
+
+func reset() -> void:
+	for item in store_items:
+		item.quantity = 0
+	store_items.clear()
+	if v_box_container:
+		for child in v_box_container.get_children():
+			child.free()  # ← inmediato, no diferido
+	v_box_container = null
+	_update_total_production()
+
+func initialize() -> void:
+	v_box_container = get_node_or_null("/root/Main/UI/Store/ScrollContainer/StoreContainer")
+	_load_store_items()
+	_update_total_production()
+	items_creation()

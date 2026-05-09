@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://d2kwhx53fm86t"]
+
+[ext_resource type="FontFile" uid="uid://c18d58cxjxn71" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_rb0lb"]
+[ext_resource type="Script" uid="uid://drhlrxg8ong4l" path="res://scripts/tr_label.gd" id="1_wdb7a"]
+[ext_resource type="Script" uid="uid://c5q6bj5ameimm" path="res://scripts/reset_popup.gd" id="1_ybfmq"]
+[ext_resource type="FontFile" uid="uid://b4r6ar0jknee2" path="res://assets/fonts/PixelOperator8.ttf" id="4_m2rb8"]
+
+[node name="reset_popup" type="Control" unique_id=967073530]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ybfmq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=51222301]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 744.0
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1814601940]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 656.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=2025263339]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1223796251]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_rb0lb")
+text = "RESET"
+script = ExtResource("1_wdb7a")
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=685741357]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=1639213733]
+layout_mode = 2
+
+[node name="Countdown" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1853265509]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_m2rb8")
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=674432048]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=2094685630]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1410375667]
+layout_mode = 2
+alignment = 1
+
+[node name="CancelBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=334507711]
+layout_mode = 2
+text = "X"
+
+[node name="HSeparator" type="VSeparator" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=106716325]
+layout_mode = 2
+
+[node name="ConfirmBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1233983935]
+layout_mode = 2
+text = "✓"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/CancelBtn" to="." method="_on_cancel_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/ConfirmBtn" to="." method="_on_confirm_btn_pressed"]

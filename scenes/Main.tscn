@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://b0uan8nmnujw0" path="res://scripts/shaders/CRT.gdshader" id="1_0ld40"]
 [ext_resource type="Shader" uid="uid://s5isxx8i8ijr" path="res://scripts/shaders/Tv.gdshader" id="1_dp3eg"]
+[ext_resource type="Script" uid="uid://b8cxld1sf1yoa" path="res://scripts/main.gd" id="1_vchkt"]
 [ext_resource type="Texture2D" uid="uid://tqmsp687g567" path="res://assets/tiles/PiedraClara.png" id="2_0ld40"]
 [ext_resource type="Script" uid="uid://deonqu02dqwq4" path="res://scripts/color_rect.gd" id="2_chjal"]
 [ext_resource type="Texture2D" uid="uid://echohgmyw3cw" path="res://assets/tiles/planta.png" id="3_gqmmt"]
@@ -32,6 +33,7 @@
 [ext_resource type="Script" uid="uid://cmuk7aymj1dyi" path="res://scripts/store_container_intentory.gd" id="27_2f3dj"]
 [ext_resource type="Texture2D" uid="uid://b86cmlwlvplou" path="res://assets/sprites/UI/language_button.png" id="27_5he1u"]
 [ext_resource type="Texture2D" uid="uid://7trhyj27jruh" path="res://assets/sprites/UI/boton_engranaje.png" id="28_5poiv"]
+[ext_resource type="Script" uid="uid://bky0dbtrhlodo" path="res://scripts/scroll_container.gd" id="29_cjqg0"]
 [ext_resource type="AudioStream" uid="uid://crkk1mdjs58y8" path="res://assets/music/DreamHouse.wav" id="29_yq6so"]
 [ext_resource type="Script" uid="uid://ovi1qvnwerg4" path="res://scripts/controlador_camara.gd" id="30_fv21b"]
 [ext_resource type="Texture2D" uid="uid://b2i8cimv8ok1m" path="res://assets/sprites/UI/stock_button.png" id="31_5q0nq"]
@@ -1285,20 +1287,11 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gqmmt"]
 shader = ExtResource("1_0ld40")
-shader_parameter/resolution = Vector2(480, 452)
+shader_parameter/resolution = Vector2(480, 360)
+shader_parameter/warp_amount = 0.5
 shader_parameter/scan_line_amount = 1.0
-shader_parameter/warp_amount = 0.30000048924999945
-shader_parameter/noise_amount = 0.03
-shader_parameter/interference_amount = 0.2
-shader_parameter/grille_amount = 0.0
-shader_parameter/grille_size = 1.0
 shader_parameter/vignette_amount = 0.3
 shader_parameter/vignette_intensity = 1.0
-shader_parameter/aberation_amount = 0.0
-shader_parameter/roll_line_amount = 0.0
-shader_parameter/roll_speed = 3.7999999946691787e-07
-shader_parameter/scan_line_strength = -9.999994775000005
-shader_parameter/pixel_strength = -2.0
 
 [node name="Main" type="Control" unique_id=973260300]
 layout_mode = 3
@@ -1307,6 +1300,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vchkt")
 metadata/_edit_lock_ = true
 
 [node name="UI" type="Node2D" parent="." unique_id=894319745]
@@ -1389,6 +1383,7 @@ z_index = 5
 position = Vector2(96, 64)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_fv21b")
+animation = &"llegada"
 autoplay = "default"
 script = ExtResource("12_pm3ni")
 texto = "The best way to organize things is to put everything in a straight line without any order."
@@ -1617,6 +1612,7 @@ offset_right = 352.0
 offset_bottom = 648.0
 mouse_filter = 2
 horizontal_scroll_mode = 0
+script = ExtResource("29_cjqg0")
 
 [node name="StoreContainerIntentory" type="VBoxContainer" parent="UI/Inventory/ScrollContainer" unique_id=1521818202 node_paths=PackedStringArray("particle_system")]
 unique_name_in_owner = true
@@ -1667,37 +1663,37 @@ scale = Vector2(3, 3)
 alignment = 1
 
 [node name="Stock" type="TextureButton" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=172996716]
+z_index = 1
 layout_mode = 2
 texture_normal = ExtResource("31_5q0nq")
 texture_pressed = ExtResource("32_kmb1v")
 
 [node name="Hub" type="TextureButton" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=313733714]
+z_index = 1
 layout_mode = 2
 texture_normal = ExtResource("32_dgi5k")
 texture_pressed = ExtResource("34_fuf3a")
 
 [node name="Store" type="TextureButton" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=759099457]
+z_index = 1
 layout_mode = 2
 texture_normal = ExtResource("33_j8jky")
 texture_pressed = ExtResource("36_pibwh")
 
 [node name="chan" type="AnimatedSprite2D" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=1965659452]
 visible = false
-z_index = -1
 position = Vector2(160, -2.6666667)
 sprite_frames = SubResource("SpriteFrames_5poiv")
 autoplay = "default"
 
 [node name="caro" type="AnimatedSprite2D" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=1932621690]
 visible = false
-z_index = -1
 position = Vector2(192, -10.666667)
 sprite_frames = SubResource("SpriteFrames_ty1g6")
 autoplay = "default"
 
 [node name="kira" type="AnimatedSprite2D" parent="Camera2D/Controlador camara/HBoxContainer" unique_id=992256107]
 visible = false
-z_index = -1
 position = Vector2(224, -2.6666667)
 sprite_frames = SubResource("SpriteFrames_j2jfr")
 autoplay = "default"
@@ -1707,7 +1703,7 @@ z_index = 10
 material = SubResource("ShaderMaterial_gqmmt")
 offset_left = -192.0
 offset_top = -320.0
-offset_right = 208.0
+offset_right = 192.0
 offset_bottom = 336.0
 mouse_filter = 2
 script = ExtResource("2_chjal")

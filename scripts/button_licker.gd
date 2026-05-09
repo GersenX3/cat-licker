@@ -43,7 +43,7 @@ func spawn_floating_text(_text: String, pos: Vector2) -> void:
 
 	var label = Label.new()
 	label.text = _text
-	label.global_position = global_position + pos
+	label.global_position = global_position + pos + Vector2(0, -32)
 	label.z_index = 10
 	label.add_theme_font_size_override("font_size", 32)
 	label.add_theme_color_override("font_color", Color(1, 1, 0.5))

@@ -24,7 +24,7 @@ func add_icon(icon_sprite: Sprite2D, store_index: int = -1) -> void:
 	icon_sprite.scale = Vector2(1, 1)
 
 	if store_index >= 0:
-		icon_sprite.set_meta("store_index", store_index)  # ✅ guardar índice
+		icon_sprite.set_meta("store_index", store_index)
 
 	organize_icons()
 	update_container_size()
@@ -36,43 +36,83 @@ func add_icon(icon_sprite: Sprite2D, store_index: int = -1) -> void:
 		particle_system.on_icon_added(icon_sprite)
 
 # ─────────────────────────────────────────────
+# DRAG SCROLL
+# ─────────────────────────────────────────────
+
+var _dragging: bool = false
+var _drag_start: Vector2 = Vector2.ZERO
+var _scroll_start: Vector2 = Vector2.ZERO
+var _drag_confirmed: bool = false
+var _press_position: Vector2 = Vector2.ZERO  # ✅ posición del press inicial para detectar click
+const DRAG_THRESHOLD: float = 8.0
+
+func _get_parent_scroll() -> ScrollContainer:
+	var p = get_parent()
+	if p is ScrollContainer:
+		return p
+	return null
+
+func _input(event: InputEvent) -> void:
+	if not get_global_rect().has_point(get_global_mouse_position()):
+		return
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_dragging = true
+			_drag_confirmed = false
+			_drag_start = event.position
+			_press_position = get_local_mouse_position()  # ✅ coordenadas locales del Control (incluye scroll)
+			var scroll = _get_parent_scroll()
+			if scroll:
+				_scroll_start = Vector2(scroll.scroll_horizontal, scroll.scroll_vertical)
+		else:
+			_dragging = false
+			# ✅ Si hubo drag: consumir el release para que _gui_input no dispare
+			if _drag_confirmed:
+				get_viewport().set_input_as_handled()
+			_drag_confirmed = false
+
+	elif event is InputEventMouseMotion and _dragging:
+		var delta = event.position - _drag_start
+		if delta.length() > DRAG_THRESHOLD:
+			_drag_confirmed = true
+		if _drag_confirmed:
+			get_viewport().set_input_as_handled()
+			var scroll = _get_parent_scroll()
+			if scroll:
+				scroll.scroll_horizontal = int(_scroll_start.x - delta.x)
+				scroll.scroll_vertical   = int(_scroll_start.y - delta.y)
+
+# ─────────────────────────────────────────────
 # DETECCIÓN DE CLICK
 # ─────────────────────────────────────────────
 
 func _gui_input(event: InputEvent) -> void:
-	if not (event is InputEventMouseButton):
-		return
-	if not (event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 
-	var clicked_index = get_icon_index_at(event.position)
+	# ✅ Procesar en RELEASE (no en press).
+	# Si hubo drag, _input ya consumió el release con set_input_as_handled()
+	# y _gui_input nunca llega aquí. Si llegamos, fue un click real.
+	if event.pressed:
+		return
 
+	# ✅ Usar la posición del press original, no la del release,
+	# para detectar correctamente el ícono que el usuario tocó.
+	var clicked_index = get_icon_index_at(_press_position)
 	if clicked_index == -1:
 		return
 
 	var icon = collected_icons[clicked_index]
 	var store_index = int(icon.get_meta("store_index", -1))
-
 	if store_index < 0:
 		return
 
 	var group = flood_fill(clicked_index, store_index)
-
 	if group.size() < 2:
 		return
 
-	explode_group(group, store_index, event.position)
-
-func get_icon_index_at(pos: Vector2) -> int:
-	for i in range(collected_icons.size()):
-		if not is_instance_valid(collected_icons[i]):
-			continue
-		var icon_pos = collected_icons[i].position
-		var half = icon_size / 2.0
-		var rect = Rect2(icon_pos - Vector2(half, half), Vector2(icon_size, icon_size))
-		if rect.has_point(pos):
-			return i
-	return -1
+	explode_group(group, store_index, _press_position)
 
 # ─────────────────────────────────────────────
 # FLOOD FILL
@@ -88,7 +128,6 @@ func flood_fill(start_index: int, store_index: int) -> Array:
 			continue
 		if not is_instance_valid(collected_icons[current]):
 			continue
-		# ✅ comparar store_index en vez de item_path
 		if int(collected_icons[current].get_meta("store_index", -1)) != store_index:
 			continue
 
@@ -122,6 +161,7 @@ func flood_fill(start_index: int, store_index: int) -> Array:
 # ─────────────────────────────────────────────
 
 func explode_group(indices: Array, store_index: int, click_pos: Vector2) -> void:
+	EventBus.emit("boom", null)
 	var total_payout = calculate_payout(store_index, indices.size())
 	var per_icon_value = total_payout.divide(Big_Number.from_float(float(indices.size())))
 
@@ -254,7 +294,7 @@ func organize_icons_animated() -> void:
 		tween.tween_property(collected_icons[i], "position", target, 0.35)\
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	EventBus.emit("pop_up_caroline", null)
-	
+
 
 # ─────────────────────────────────────────────
 # PAGO
@@ -323,7 +363,7 @@ func get_save_data() -> Array:
 		if is_instance_valid(icon) and icon.texture:
 			save_array.append({
 				"texture_path": icon.texture.resource_path,
-				"store_index": int(icon.get_meta("store_index", -1)),  # ✅
+				"store_index": int(icon.get_meta("store_index", -1)),
 				"position": { "x": icon.position.x, "y": icon.position.y },
 				"scale": { "x": icon.scale.x, "y": icon.scale.y }
 			})
@@ -345,7 +385,7 @@ func load_save_data(save_array: Array) -> void:
 
 				var idx = icon_data.get("store_index", -1)
 				if idx >= 0:
-					icon_sprite.set_meta("store_index", idx)  # ✅
+					icon_sprite.set_meta("store_index", idx)
 
 				if icon_data.has("scale"):
 					icon_sprite.scale = Vector2(icon_data["scale"]["x"], icon_data["scale"]["y"])
@@ -358,3 +398,14 @@ func load_save_data(save_array: Array) -> void:
 
 	organize_icons()
 	update_container_size()
+
+func get_icon_index_at(pos: Vector2) -> int:
+	for i in range(collected_icons.size()):
+		if not is_instance_valid(collected_icons[i]):
+			continue
+		var icon_pos = collected_icons[i].position
+		var half = icon_size / 2.0
+		var rect = Rect2(icon_pos - Vector2(half, half), Vector2(icon_size, icon_size))
+		if rect.has_point(pos):
+			return i
+	return -1

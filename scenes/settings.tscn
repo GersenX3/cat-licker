@@ -42,6 +42,30 @@ text = "Reset"
 script = ExtResource("4_f4mfi")
 translation_key = "RESET"
 
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=994567248]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=1976370445]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="VSeparator3" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=1307723632]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="VSeparator4" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=431694243]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="VSeparator5" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=1693740109]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="VSeparator6" type="VSeparator" parent="CenterContainer/VBoxContainer" unique_id=1429565454]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
 [node name="CRTButton" type="CheckButton" parent="CenterContainer/VBoxContainer" unique_id=1476357861]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_6wm04")

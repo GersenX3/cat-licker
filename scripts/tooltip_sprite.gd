@@ -21,7 +21,8 @@ func _ready() -> void:
 		EventBus.subscribe(event_name, _on_event_triggered, false)
 	else:
 		push_error("EventBus no tiene el método 'subscribe' o no está inicializado.")
-
+	EventBus.subscribe("boom", _on_event_triggered, false)
+	
 func _on_event_triggered(_args) -> void:
 	self.visible = true
 	MusicManager.play_sound(sound_path, 0.5, false, 1,Vector2.ZERO)
@@ -29,6 +30,7 @@ func _on_event_triggered(_args) -> void:
 		self.play(anim_name)
 	else:
 		push_warning("No existe la animación '%s' en este AnimatedSprite2D." % anim_name)
+
 
 func _on_animation_finished() -> void:
 	# Vuelve a 'default' si la animación terminada es la configurada

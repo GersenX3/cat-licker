@@ -1,4 +1,5 @@
 extends Node
+var debug = false
 
 # Reference to the data handler that manages event data persistence
 var data_handler: EventBusDataHandler
@@ -34,6 +35,11 @@ func _on_tree_exiting() -> void:
 
 # MODIFICADO: Se añade el parámetro 'auto_unsubscribe' con valor por defecto 'true'
 func subscribe(event_name: String, listener: Callable, auto_unsubscribe: bool = true) -> void:
+	# FIX: Validar que el objeto del Callable existe antes de suscribir
+	if not is_instance_valid(listener.get_object()):
+		push_warning("EventBus: Intento de suscribir un Callable con objeto inválido para el evento '%s'." % event_name)
+		return
+
 	if not _listeners.has(event_name):
 		_listeners[event_name] = []
 	
@@ -43,7 +49,8 @@ func subscribe(event_name: String, listener: Callable, auto_unsubscribe: bool = 
 		"auto_unsubscribe": auto_unsubscribe
 	}
 	_listeners[event_name].append(subscription_info)
-	print("EventBus: Subscribed listener to event '%s'." % event_name)
+	if debug:
+		print("EventBus: Subscribed listener to event '%s'." % event_name)
 	
 	# Update the data handler for persistence
 	var listener_info = {
@@ -82,17 +89,26 @@ func emit(event_name: String, args) -> void:
 		# Copiamos para iterar de forma segura, ya que la lista original puede ser modificada
 		var listeners_to_call = _listeners[event_name].duplicate()
 		var listeners_to_unsubscribe = []
-
-		print("EventBus: Emitting event '%s' to %d listeners." % [event_name, listeners_to_call.size()])
+		if debug:
+			print("EventBus: Emitting event '%s' to %d listeners." % [event_name, listeners_to_call.size()])
 		
 		# Primera pasada: llamar a todos los listeners
 		for subscription_info in listeners_to_call:
 			if subscription_info["callable"] is Callable:
-				subscription_info["callable"].callv([args])
+				var obj = subscription_info["callable"].get_object()
 				
-				# Si se debe autodesuscribir, lo añadimos a una lista para después
-				if subscription_info["auto_unsubscribe"]:
+				# FIX: Verificar que el objeto sigue vivo antes de llamar
+				if is_instance_valid(obj):
+					subscription_info["callable"].callv([args])
+					
+					# Si se debe autodesuscribir, lo añadimos a una lista para después
+					if subscription_info["auto_unsubscribe"]:
+						listeners_to_unsubscribe.append(subscription_info["callable"])
+				else:
+					# FIX: El objeto fue destruido (ej: cambio de escena), limpiar el listener fantasma
 					listeners_to_unsubscribe.append(subscription_info["callable"])
+					if debug:
+						print("EventBus: Objeto destruido detectado al emitir '%s', limpiando listener fantasma." % event_name)
 			else:
 				push_error("EventBus: Listener is not a Callable.")
 		
@@ -100,10 +116,12 @@ func emit(event_name: String, args) -> void:
 		if not listeners_to_unsubscribe.is_empty():
 			for listener in listeners_to_unsubscribe:
 				unsubscribe(event_name, listener)
-				print("EventBus: Auto-unsubscribed listener from event '%s'." % event_name)
+				if debug:
+					print("EventBus: Auto-unsubscribed listener from event '%s'." % event_name)
 
 	else:
-		print("EventBus: No listeners registered for event '%s'." % event_name)
+		if debug:
+			print("EventBus: No listeners registered for event '%s'." % event_name)
 	
 	# Update the data handler with the emitted event information
 	var timestamp = int(Time.get_unix_time_from_system())

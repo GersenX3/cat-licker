@@ -28,8 +28,8 @@ buses/default_bus_layout="uid://cipl80bjvh2ed"
 EventBus="*res://addons/event_bus_plugin/EventBus.gd"
 MusicManager="*res://singlestones/MusicManager.gd"
 GlobalValues="*res://singlestones/global_values.gd"
-Store="*res://singlestones/store.gd"
 DialogSystem="*res://singlestones/DialogSystem.gd"
+Store="*uid://cj7pwkb0yctbo"
 
 [display]
 

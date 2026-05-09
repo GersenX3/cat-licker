@@ -1,7 +1,7 @@
 extends ColorRect
 
 func _ready() -> void:
-	visible = false  # default seguro mientras carga
+	visible = true  # default seguro mientras carga
 	EventBus.subscribe("settings_loaded", _on_settings_loaded, false)
 	EventBus.subscribe("change_settings", _on_change_settings, false)
 

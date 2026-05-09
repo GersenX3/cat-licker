@@ -21,7 +21,8 @@ func _on_save_pressed() -> void:
 	settings.queue_free()
 
 
+var _reset_popup = preload("res://scenes/reset_popup.tscn")
+
 func _on_reset_pressed() -> void:
-	GlobalValues.delete_save()
-	
-	pass # Replace with function body.
+	var popup = _reset_popup.instantiate()
+	self.add_child(popup)
