@@ -20,8 +20,11 @@ script = ExtResource("1_yrgbr")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=711346208]
 layout_mode = 0
-offset_right = 384.0
-offset_bottom = 656.0
+offset_left = -1000.0
+offset_top = -1504.0
+offset_right = -616.0
+offset_bottom = -848.0
+scale = Vector2(6, 6)
 color = Color(0, 0, 0, 0.50980395)
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=103050342]

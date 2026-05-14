@@ -26,3 +26,27 @@ var _reset_popup = preload("res://scenes/reset_popup.tscn")
 func _on_reset_pressed() -> void:
 	var popup = _reset_popup.instantiate()
 	self.add_child(popup)
+
+
+func _on_crt_button_pressed() -> void:
+	GlobalValues.save_settings(
+		crt_button.button_pressed,
+		music_slider.value,
+		sfx_slider_2.value
+	)
+
+
+func _on_music_slider_drag_ended(value_changed: bool) -> void:
+	GlobalValues.save_settings(
+		crt_button.button_pressed,
+		music_slider.value,
+		sfx_slider_2.value
+	)
+
+
+func _on_sfx_slider_2_drag_ended(value_changed: bool) -> void:
+	GlobalValues.save_settings(
+		crt_button.button_pressed,
+		music_slider.value,
+		sfx_slider_2.value
+	)

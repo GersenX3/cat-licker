@@ -22,8 +22,11 @@ script = ExtResource("1_r6d6q")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=711346208]
 layout_mode = 0
-offset_right = 384.0
-offset_bottom = 656.0
+offset_left = -840.0
+offset_top = -1576.0001
+offset_right = -456.0
+offset_bottom = -920.0001
+scale = Vector2(6, 6)
 color = Color(0, 0, 0, 0.50980395)
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=103050342]
@@ -107,5 +110,19 @@ text = "Save"
 script = ExtResource("4_f4mfi")
 translation_key = "SAVE"
 
+[node name="Label" type="Label" parent="." unique_id=2090174589]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 552.0
+offset_right = 240.0
+offset_bottom = 575.0
+text = "1.0.2"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/CRTButton" to="." method="_on_crt_button_pressed"]
+[connection signal="changed" from="CenterContainer/VBoxContainer/MusicSlider" to="." method="_on_music_slider_changed"]
+[connection signal="drag_ended" from="CenterContainer/VBoxContainer/MusicSlider" to="." method="_on_music_slider_drag_ended"]
+[connection signal="changed" from="CenterContainer/VBoxContainer/SFXSlider2" to="." method="_on_sfx_slider_2_changed"]
+[connection signal="drag_ended" from="CenterContainer/VBoxContainer/SFXSlider2" to="." method="_on_sfx_slider_2_drag_ended"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/SAVE" to="." method="_on_save_pressed"]

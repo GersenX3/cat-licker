@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Cat-Licker"
+config/name="catLicker"
 run/main_scene="uid://bqsfw81u8fnnp"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
@@ -37,6 +37,7 @@ window/size/viewport_width=384
 window/size/viewport_height=656
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
 window/handheld/orientation=1
 
 [input]
