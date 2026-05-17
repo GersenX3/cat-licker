@@ -8,7 +8,7 @@ extends Button
 
 var item_name: String = "Item"
 var description: String = "Descripción del item"
-#var icon: Texture2D = null
+var item_icon: Texture2D = null
 
 # Economía (basado en Cookie Clicker)
 var base_cost: Big_Number  # Costo inicial
@@ -50,19 +50,24 @@ func _ready() -> void:
 	
 	# ✅ Actualizar nombre traducido al cambiar idioma
 	EventBus.subscribe("locale_changed", _on_locale_changed, false)
-	
+
 	setup_scroll_system()
 	update_labels()
 	update_button_state()
+
+	# Escuchar cambios de balance/producción en vez de hacer polling cada frame.
+	GlobalValues.balance_changed.connect(_on_balance_changed)
+	GlobalValues.production_changed.connect(_on_production_changed)
 
 func _on_locale_changed(_locale) -> void:
 	item_name = tr("ITEM_%d_NAME" % store_index)
 	description = tr("ITEM_%d_DESC" % store_index)
 	update_labels()
 
+func _on_balance_changed(_new_total: Big_Number) -> void:
+	update_button_state()
 
-func _process(_delta: float) -> void:
-	# Actualizar estado del botón constantemente
+func _on_production_changed(_new_bps: Big_Number) -> void:
 	update_button_state()
 
 func setup_scroll_system() -> void:
@@ -106,7 +111,7 @@ func _on_pressed() -> void:
 	if current_state != ButtonState.UNLOCKED:
 		return
 	
-	print(self.text)
+	GlobalValues.dlog(self.text)
 	if Store.purchase_item(self.store_index):
 		# Actualizar labels después de la compra
 		quantity += 1
@@ -120,18 +125,18 @@ func _on_pressed() -> void:
 # Crear y animar el icono flotante
 func spawn_icon_animation(x_offset: float = 0.0) -> void:
 	# Verificar que existe un icono
-	if not icon:
+	if not item_icon:
 		return
-	
+
 	# Obtener referencia a Main
 	var main_node = get_node("/root/Main")
 	if not main_node:
 		push_error("No se encontró el nodo Main")
 		return
-	
+
 	# Crear el Sprite2D
 	var icon_sprite = Sprite2D.new()
-	icon_sprite.texture = icon
+	icon_sprite.texture = item_icon
 	icon_sprite.z_index = 0
 	# Aplicar offset X a la posición
 	icon_sprite.global_position = global_position + Vector2(size.x / 2 + x_offset, size.y / 2)
@@ -169,18 +174,18 @@ func spawn_icon_animation(x_offset: float = 0.0) -> void:
 # Función modificada
 func translation_animation(from_pos: Vector2, to_pos: Vector2, duration: float = 0.8) -> void:
 	# Verificar que existe un icono
-	if not icon:
+	if not item_icon:
 		return
-	
+
 	# Obtener referencia a Main
 	var main_node = get_node("/root/Main")
 	if not main_node:
 		push_error("No se encontró el nodo Main")
 		return
-	
+
 	# Crear el Sprite2D
 	var icon_sprite = Sprite2D.new()
-	icon_sprite.texture = icon
+	icon_sprite.texture = item_icon
 	icon_sprite.z_index = 8
 	icon_sprite.global_position = from_pos
 	

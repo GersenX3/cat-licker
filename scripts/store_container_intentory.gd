@@ -310,11 +310,12 @@ func calculate_payout(store_index: int, count: int) -> Big_Number:
 	var multiplier = Big_Number.from_float(float(count * count))
 	var payout = base_cost.multiply(multiplier)
 
-	print("💥 Explosión de ", count, " ítems — ", item.item_name)
-	print("💰 Payout: ", payout.to_readable_string())
+	GlobalValues.dlog("💥 Explosión de ", count, " ítems — ", item.item_name)
+	GlobalValues.dlog("💰 Payout: ", payout.to_readable_string())
 
 	GlobalValues.hair_balls_total = GlobalValues.hair_balls_total.add_another_big(payout)
-	print("💰 Nuevo total: ", GlobalValues.hair_balls_total.to_readable_string())
+	GlobalValues.notify_balance_changed()
+	GlobalValues.dlog("💰 Nuevo total: ", GlobalValues.hair_balls_total.to_readable_string())
 	return payout
 
 # ─────────────────────────────────────────────

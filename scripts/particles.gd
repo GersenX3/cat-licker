@@ -63,7 +63,7 @@ func create_color_ramp() -> Gradient:
 
 func update_particle_textures() -> void:
 	if not inventory_container:
-		print("⚠️ Inventory container not found")
+		GlobalValues.dlog("⚠️ Inventory container not found")
 		return
 	
 	for ps in particle_systems:
@@ -77,14 +77,14 @@ func update_particle_textures() -> void:
 			add_child(particle_system)
 			particle_systems.append(particle_system)
 	
-	print("✨ Sistemas de partículas creados: ", particle_systems.size())
+	GlobalValues.dlog("✨ Sistemas de partículas creados: ", particle_systems.size())
 
 func on_icon_added(new_icon: Sprite2D) -> void:
 	if new_icon and new_icon.texture:
 		var particle_system = create_particle_system(new_icon.texture)
 		add_child(particle_system)
 		particle_systems.append(particle_system)
-		print("✨ Nueva partícula agregada. Total: ", particle_systems.size())
+		GlobalValues.dlog("✨ Nueva partícula agregada. Total: ", particle_systems.size())
 
 # ====================================================================
 # 💾 SISTEMA DE GUARDADO/CARGA DE PARTÍCULAS
@@ -100,11 +100,11 @@ func get_save_data() -> Array:
 				"emitting": ps.emitting
 			})
 	
-	print("💾 Saving ", save_array.size(), " particle systems")
+	GlobalValues.dlog("💾 Saving ", save_array.size(), " particle systems")
 	return save_array
 
 func load_save_data(save_array: Array) -> void:
-	print("💾 Loading particle systems: ", save_array.size())
+	GlobalValues.dlog("💾 Loading particle systems: ", save_array.size())
 	
 	for ps in particle_systems:
 		if is_instance_valid(ps):
@@ -121,7 +121,7 @@ func load_save_data(save_array: Array) -> void:
 				add_child(particle_system)
 				particle_systems.append(particle_system)
 	
-	print("✅ Particle systems loaded: ", particle_systems.size())
+	GlobalValues.dlog("✅ Particle systems loaded: ", particle_systems.size())
 
 func sync_with_inventory() -> void:
 	if not inventory_container:

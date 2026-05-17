@@ -37,7 +37,7 @@ func get_payback_time() -> float:
 		return INF
 	var cost = get_current_cost()
 	# devolvemos como float (segundos), aproximado
-	return (cost.mantisa * pow(10.0, cost.exp)) / (prod.mantisa * pow(10.0, prod.exp))
+	return (cost.mantisa * pow(10.0, cost.exponential)) / (prod.mantisa * pow(10.0, prod.exponential))
 
 # Comprar una unidad (retorna true si fue exitoso)
 func try_purchase(current_balance: float) -> bool:
@@ -71,20 +71,17 @@ func try_bulk_purchase(current_balance: Big_Number, amount: int) -> int:
 	var total_cost = get_bulk_cost(amount)
 	
 	# Si alcanza para todas las unidades
-	if current_balance.is_greater(total_cost) or not total_cost.is_greater(current_balance):
+	if current_balance.is_greater_or_equal(total_cost):
 		quantity += amount
 		return amount
 	else:
 		# Comprar la cantidad máxima posible una por una
 		for i in range(amount):
 			var cost = get_current_cost()
-			if current_balance.is_greater(cost) or not cost.is_greater(current_balance):
+			if current_balance.is_greater_or_equal(cost):
 				quantity += 1
 				# restamos balance = balance - cost
-				current_balance = Big_Number.from_float(
-					(current_balance.mantisa * pow(10.0, current_balance.exp)) -
-					(cost.mantisa * pow(10.0, cost.exp))
-				)
+				current_balance = current_balance.subtract(cost)
 				purchased += 1
 			else:
 				break

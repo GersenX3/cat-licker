@@ -28,6 +28,7 @@ func _on_pressed() -> void:
 	var combo_bonus = Big_Number.from_float(float(click_count))
 	var total_gain = GlobalValues.click_value.multiply(combo_bonus)
 	GlobalValues.hair_balls_total = GlobalValues.hair_balls_total.add_another_big(total_gain)
+	GlobalValues.notify_balance_changed()
 	# Efectos sonoros
 	var combo_factor = float(click_count) / float(get_max_combo())
 	var pitch = 1.0 + (combo_factor * 0.5) + randf_range(0, 0.3) - 0.5

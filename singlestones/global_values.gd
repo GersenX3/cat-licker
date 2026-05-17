@@ -1,8 +1,27 @@
 extends Node
 
+# Señales que la UI puede escuchar para evitar polling por _process.
+# balance_changed se emite con throttle (BALANCE_TICK_INTERVAL) porque la
+# producción pasiva cambia el total cada frame.
+signal balance_changed(new_total: Big_Number)
+signal production_changed(new_bps: Big_Number)
+
+const BALANCE_TICK_INTERVAL: float = 0.1
+
+# Flag para silenciar prints debug en release. Cambiar a true cuando se
+# necesite depurar economía / tienda / inventario / save.
+const DEBUG_LOG: bool = false
+
+func dlog(a = "", b = "", c = "", d = "", e = "", f = "", g = "", h = "") -> void:
+	if not DEBUG_LOG:
+		return
+	print(a, b, c, d, e, f, g, h)
+
 var hair_balls_total = Big_Number.new(0, 0)
 var hairs_balls_per_second = Big_Number.new(0, 0)
 var click_value = Big_Number.new(1, 0)
+
+var _balance_tick: float = 0.0
 
 var autosave_timer: Timer
 const AUTOSAVE_INTERVAL: float = 10.0
@@ -144,6 +163,20 @@ func _process(_delta: float) -> void:
 		hairs_balls_per_second.exponential
 	)
 	hair_balls_total = hair_balls_total.add_another_big(increment)
+
+	# Tick throttle: emitir balance_changed a 10 Hz en vez de 60 Hz
+	_balance_tick += _delta
+	if _balance_tick >= BALANCE_TICK_INTERVAL:
+		_balance_tick = 0.0
+		emit_signal("balance_changed", hair_balls_total)
+
+# Llamar cuando algo cambia el balance fuera del tick pasivo (click, compra)
+# para que la UI reaccione sin esperar al próximo tick.
+func notify_balance_changed() -> void:
+	emit_signal("balance_changed", hair_balls_total)
+
+func notify_production_changed() -> void:
+	emit_signal("production_changed", hairs_balls_per_second)
 
 # ====================================================================
 # 💾 GUARDADO
@@ -306,12 +339,14 @@ func recalculate_bps() -> void:
 	hairs_balls_per_second = Big_Number.new(0, 0)
 	var store_container = get_node_or_null("/root/Main/UI/Store/ScrollContainer/StoreContainer")
 	if not store_container:
+		notify_production_changed()
 		return
 	for child in store_container.get_children():
 		if child.has_method("get_production_contribution"):
 			var contrib = child.call("get_production_contribution")
 			hairs_balls_per_second = hairs_balls_per_second.add_another_big(contrib)
 	print("🔄 BpS recalculado: ", hairs_balls_per_second.to_readable_string())
+	notify_production_changed()
 
 func _apply_offline_progress() -> void:
 	if _last_save_timestamp <= 0:
@@ -324,6 +359,7 @@ func _apply_offline_progress() -> void:
 	var offline_gain = hairs_balls_per_second.multiply(Big_Number.from_float(elapsed))
 	hair_balls_total = hair_balls_total.add_another_big(offline_gain)
 	print("⏰ Progreso offline: +", offline_gain.to_readable_string(), " (", int(elapsed), "s fuera)")
+	notify_balance_changed()
 
 # ====================================================================
 # 🔍 VALIDACIÓN
@@ -365,6 +401,8 @@ func delete_save() -> bool:
 		hair_balls_total        = Big_Number.new(0, 0)
 		hairs_balls_per_second  = Big_Number.new(0, 0)
 		click_value             = Big_Number.new(1, 0)
+		notify_balance_changed()
+		notify_production_changed()
 	return deleted
 
 func has_save_file() -> bool:

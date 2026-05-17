@@ -198,7 +198,7 @@ func _end_dialogue() -> void:
 	if is_instance_valid(_text_box_instance):
 		_text_box_instance.queue_free()
 	var nombre_emision = _current_character+"_termino_dialogo"
-	print(nombre_emision)
+	GlobalValues.dlog(nombre_emision)
 	EventBus.emit(nombre_emision, _current_id)
 	# Marcar en el historial
 	if not _current_dialog_name.is_empty():

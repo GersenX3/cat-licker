@@ -4,43 +4,28 @@ extends RichTextLabel
 var previous_value: Big_Number = Big_Number.new(0, 0)
 var scale_tween: Tween
 var color_tween: Tween
-var update_timer: float = 0.0
-var update_interval: float = 0.05  # Actualizar cada 0.05 segundos
 
 func _ready() -> void:
 	pivot_offset = size / 2  # Centro para escalar desde el medio
 
-func _process(_delta: float) -> void:
-	update_timer += _delta
-	
-	# Actualizar solo cada cierto intervalo para performance
-	if update_timer < update_interval:
-		return
-	update_timer = 0.0
-	
-	var current_value: Big_Number
-	var new_text: String
-	
+	# Suscribirse a la fuente de verdad correspondiente
 	if self.name != "total":
-		current_value = GlobalValues.hairs_balls_per_second
-		new_text = "[wave]" + current_value.to_readable_string() + "[/wave]"
+		GlobalValues.production_changed.connect(_on_value_changed)
+		_on_value_changed(GlobalValues.hairs_balls_per_second)
 	else:
-		current_value = GlobalValues.hair_balls_total
-		new_text = "[wave]" + current_value.to_readable_string() + "[/wave]"
-	
+		GlobalValues.balance_changed.connect(_on_value_changed)
+		_on_value_changed(GlobalValues.hair_balls_total)
+
+func _on_value_changed(current_value: Big_Number) -> void:
+	var new_text = "[wave]" + current_value.to_readable_string() + "[/wave]"
+
 	# Detectar si el valor cambió significativamente
 	if not current_value.is_equal(previous_value):
-		var value_increased = current_value.is_greater(previous_value)
-		
-		if value_increased:
-			# Efecto de "pop" cuando el valor aumenta
+		if current_value.is_greater(previous_value):
 			animate_value_change()
-			
-			# Color pulsante basado en crecimiento
 			pulse_color()
-		
 		previous_value = current_value.duplicate_big()
-	
+
 	self.text = new_text
 
 # Animación de escala tipo "pop"
