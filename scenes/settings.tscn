@@ -116,7 +116,7 @@ offset_left = 144.0
 offset_top = 552.0
 offset_right = 240.0
 offset_bottom = 575.0
-text = "1.0.2"
+text = "1.0.4"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]

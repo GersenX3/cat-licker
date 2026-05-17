@@ -37,7 +37,7 @@ window/size/viewport_width=384
 window/size/viewport_height=656
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep_width"
+window/stretch/aspect="expand"
 window/handheld/orientation=1
 
 [input]
